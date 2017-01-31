@@ -1,7 +1,5 @@
 <?php
 
-include("bdd.php");
-
 class UserManager
 {
     private $bddInstance;
@@ -11,9 +9,16 @@ class UserManager
         $this->bddInstance->openBDD();
     }
 
-    public function getAllUser()
+    private function getAllUser()
     {
         return $this->bddInstance->query("SELECT * FROM User;");
+    }
+
+    private function getUser($username, $password)
+    {
+        return $this->bddInstance->query("SELECT 1 FROM User
+                                         WHERE Username = " . $username . "
+                                         AND Password = " . $password . ";");
     }
 
     private function createUser($username, $email, $password)
@@ -23,25 +28,31 @@ class UserManager
                                       array($username, $email, $password));
     }
 
-    public function register()
+    private function userExist($username, $password)
     {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-
-        if (!isset($_POST['username']) && !isset($_POST['email']) && !isset($_POST['password']))
-        {
-            $this->createUser($username, $email, $password);
+        if ($this->getUser($username, $password)) {
+            return true;
         }
         else {
-            throw new Exception('Invalid Form');
+            return false;
+        }
+    }
+
+    public function register()
+    {
+        if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password']))
+        {
+            $this->createUser($_POST["username"], $_POST["email"], $_POST["password"]);
         }
     }
 
     public function login()
     {
-        $_SESSION['username'] = $_POST['username'];
-        $_SESSION['password'] = $_POST['password'];
+        if ($this->userExist($_POST['username'], $_POST['password']))
+        {
+            $_SESSION['username'] = $_POST['username'];
+            $_SESSION['password'] = $_POST['password'];
+        }
     }
 
     public function logout()
@@ -51,7 +62,7 @@ class UserManager
 
     public function isLogged()
     {
-        if ($_SESSION['username'] == "ewq") {
+        if ($this->userExist($_SESSION['username'], $_SESSION['password'])) {
             return true;
         } else {
             return false;

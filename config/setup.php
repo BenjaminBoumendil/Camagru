@@ -1,7 +1,6 @@
 <?php
 
-// TODO Fix include problem
-include("../srcs/bdd.php");
+include("srcs/bdd.php");
 
 $bdd = BDD::getInstance();
 $bdd->openBDD();

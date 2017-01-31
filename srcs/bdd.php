@@ -59,11 +59,7 @@ class BDD extends Singleton
     {
         try {
             if (!isset($this->bdd)) {
-                // TODO fix include problem
-                $DB_DSN = "mysql:host=localhost;dbname=test;charset=utf8;";
-                $DB_USER = "admin";
-                $DB_PASSWORD = "admin";
-                // include("../config/database.php");
+                include("config/database.php");
                 $this->bdd = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
                 $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }

@@ -2,7 +2,15 @@
 
 session_start();
 
-include("srcs/userManager.php");
+function __autoload($class_name) {
+    $dir_list = ["srcs/"];
+    foreach ($dir_list as $dir) {
+        if (file_exists($dir . $class_name . '.php')) {
+            require_once($dir . $class_name . '.php');
+            break ;
+        }
+    }
+}
 
 function index()
 {
@@ -23,10 +31,6 @@ function index()
     else
     {
         include("index.html");
-        foreach ($userManager->getAllUser() as $data)
-        {
-            print_r($data);
-        }
         $userManager->logout();
     }
 }
