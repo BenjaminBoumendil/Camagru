@@ -29,12 +29,19 @@ class UserManager
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $this->createUser($username, $email, $password);
+        if (!isset($_POST['username']) && !isset($_POST['email']) && !isset($_POST['password']))
+        {
+            $this->createUser($username, $email, $password);
+        }
+        else {
+            throw new Exception('Invalid Form');
+        }
     }
 
     public function login()
     {
-        $_SESSION['login'] = "ewq";
+        $_SESSION['username'] = $_POST['username'];
+        $_SESSION['password'] = $_POST['password'];
     }
 
     public function logout()
@@ -44,7 +51,7 @@ class UserManager
 
     public function isLogged()
     {
-        if ($_SESSION['login'] == "ewq") {
+        if ($_SESSION['username'] == "ewq") {
             return true;
         } else {
             return false;

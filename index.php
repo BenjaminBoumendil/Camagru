@@ -18,19 +18,16 @@ function index()
                 $userManager->register();
             }
             $userManager->login();
-            return index();
         }
     }
     else
     {
         include("index.html");
-        // while ($data = $userManager->getAllUser()->fetch())
-        // {
         foreach ($userManager->getAllUser() as $data)
         {
             print_r($data);
         }
-        // }
+        $userManager->logout();
     }
 }
 
