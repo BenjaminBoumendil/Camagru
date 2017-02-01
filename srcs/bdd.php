@@ -28,7 +28,8 @@ class BDD extends Singleton
             $resp = $this->bdd->query($query);
             return $resp;
         } catch (Exception $e) {
-            return "Erreur : " . $e->getMessage();
+            echo "Camagru ERREUR: " . $e->getMessage();
+            return false;
         }
     }
 
@@ -37,9 +38,16 @@ class BDD extends Singleton
         try {
             $req = $this->bdd->prepare($query);
             $req->execute($value_arr);
+            return true;
         } catch(PDOException $e) {
-            return "Erreur : " . $e->getMessage();
+            echo "Camagru ERREUR: " . $e->getMessage();
+            return false;
         }
+    }
+
+    public function createBDD()
+    {
+        $this->query("CREATE DATABASE camagru;");
     }
 
     public function createTable()
@@ -47,24 +55,26 @@ class BDD extends Singleton
         $this->query("CREATE TABLE User
                      (
                      UserID int                 NOT NULL AUTO_INCREMENT,
-                     Username varchar(255)      NOT NULL,
-                     Email varchar(255)         NOT NULL,
+                     Username varchar(255)      NOT NULL UNIQUE,
+                     Email varchar(255)         NOT NULL UNIQUE,
                      Password varchar(255)      NOT NULL,
                      PRIMARY KEY(UserID)
                      );"
                     );
     }
 
-    public function openBDD()
+    public function openBDD($db_dsn=null, $db_user=null, $db_password=null)
     {
         try {
+            require_once("config/database.php");
             if (!isset($this->bdd)) {
-                include("config/database.php");
-                $this->bdd = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+                $this->bdd = new PDO($db_dsn ?? $DB_DSN,
+                                     $db_user ?? $DB_USER,
+                                     $db_password ?? $DB_PASSWORD);
                 $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
         } catch (Exception $e) {
-            die("Erreur : " . $e->getMessage());
+            die("Camagru Erreur : " . $e->getMessage());
         }
     }
 

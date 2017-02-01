@@ -15,9 +15,11 @@ function __autoload($class_name) {
 function index()
 {
     $userManager = new UserManager();
-    if (!$userManager->isLogged())
+    $urlParser = new UrlParser();
+
+    if ($userManager->isLogged() == false)
     {
-        if (!isset($_POST['username'])) {
+        if (!isset($_POST['username']) && !isset($_POST['password'])) {
             include("html/register.php");
         }
         else
@@ -31,7 +33,7 @@ function index()
     else
     {
         include("index.html");
-        $userManager->logout();
+        $urlParser->urlParse();
     }
 }
 
