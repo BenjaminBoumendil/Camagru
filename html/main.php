@@ -2,7 +2,11 @@
 <html>
 
   <div id="main">
-    Main
+    Webcam:
+
+    <br />
+
+    <video autoplay></video>
   </div>
 
 </html>
