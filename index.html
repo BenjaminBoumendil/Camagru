@@ -53,9 +53,7 @@
           // send Image to server
           var file = document.getElementById('img-cam').src,
           xhr = new XMLHttpRequest();
-
           xhr.open('POST', '/?img-upload', true);
-          xhr.setRequestHeader('Content-Type', file.type);
           xhr.send(file);
         }
       }

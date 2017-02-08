@@ -17,6 +17,8 @@ function index()
     $userManager = new UserManager();
     $urlParser = new UrlParser();
 
+    print_r($_SERVER);
+
     if ($userManager->isLogged() == false)
     {
         if (!isset($_POST['username']) && !isset($_POST['password'])) {

@@ -18,9 +18,13 @@ class ImageManager extends Manager
 
     public function createImage($name, $file)
     {
-        $this->bddInstance->prepExec("INSERT INTO Image (Name, File)
-                                     VALUES (?, ?);",
-                                     array($name, $file));
+        try {
+            $this->bddInstance->prepExec("INSERT INTO Image (Name, File)
+                                         VALUES (?, ?);",
+                                         array($name, $file));
+        } catch (Exception $e) {
+            echo "Camagru Erreur: " . $e;
+        }
     }
 
     public function getAllImageByUser()

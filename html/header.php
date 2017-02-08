@@ -26,7 +26,6 @@
 
   <script>
     function logout() {
-        console.log("logout js");
         xhttp = new XMLHttpRequest();
         xhttp.open("GET", "/?logout", true);
         xhttp.send();

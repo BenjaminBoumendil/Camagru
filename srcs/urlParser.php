@@ -11,10 +11,9 @@ class UrlParser
 
         if ($qs['path'] == "logout") {
             $userManager->logout();
-        } else if ($qs['path'] == "img-upload") {
+        } elseif ($qs['path'] == "img-upload") {
             print_r($_SERVER);
         }
-        return false;
     }
 }
 

@@ -72,6 +72,10 @@ class UserManager extends Manager
             isset($_POST['email']) && $this->argCheck($_POST['password']))
         {
             $this->createUser($_POST["username"], $_POST["email"], $_POST["password"]);
+            mail($_POST["email"], "Welcome",
+                "You are now registred as " . $_POST['username'] .
+                "and your password is " . $_POST['password']
+                );
         }
     }
 
