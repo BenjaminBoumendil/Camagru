@@ -32,6 +32,24 @@ class BDD extends Singleton
         }
     }
 
+    public function prepare($query, $driver=array())
+    {
+        try {
+            return $this->bdd->prepare($query, $driver);
+        } catch (PDOException $e) {
+            throw new Exception($e);
+        }
+    }
+
+    public function execute($request, $param)
+    {
+        try {
+            return $request->execute($param);
+        } catch (PDOException $e) {
+            throw new Exception($e);
+        }
+    }
+
     public function prepExec($query, $value_arr)
     {
         try {

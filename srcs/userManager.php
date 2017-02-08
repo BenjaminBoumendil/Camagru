@@ -19,16 +19,22 @@ class UserManager extends Manager
 
     private function getAllUser()
     {
-        return $this->bddInstance->query("SELECT * FROM User;");
+        try {
+            return $this->bddInstance->query("SELECT * FROM User;");
+        } catch (Exception $e) {
+            echo "Camagru Erreur: " . $e;
+            return false;
+        }
     }
 
     private function getUser($username, $password)
     {
         try {
-            return $this->bddInstance
-                        ->prepExec("SELECT Username, Email, Password FROM User
-                                    WHERE Username = ? AND Password = ?;",
-                                    array($username, $password));
+            $req = $this->bddInstance
+                        ->prepare("SELECT Username, Email, Password FROM User
+                                  WHERE Username = ? AND Password = ?;");
+            $this->bddInstance->execute($req, array($username, $password));
+            return $req->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             echo "Camagru Erreur: " . $e;
             return false;
@@ -48,20 +54,22 @@ class UserManager extends Manager
 
     private function userExist($username, $password)
     {
-        try {
-            return $this->bddInstance
-                        ->prepExec("SELECT Username, Email, Password FROM User
-                                    WHERE Username = ? AND Password = ?;",
-                                    array($username, $password));
-        } catch (Exception $e) {
-            echo "Camagru Erreur: " . $e;
+        return count($this->getUser($username, $password)) == 1 ?? false;
+    }
+
+    private function argCheck($arg)
+    {
+        if (isset($arg) && ctype_alnum($arg) && !preg_match('/\s/', $arg)) {
+            return true;
+        } else {
             return false;
         }
     }
 
     public function register()
     {
-        if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password']))
+        if ($this->argCheck($_POST['username']) &&
+            isset($_POST['email']) && $this->argCheck($_POST['password']))
         {
             $this->createUser($_POST["username"], $_POST["email"], $_POST["password"]);
         }
