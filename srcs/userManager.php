@@ -1,12 +1,20 @@
 <?php
 
-class UserManager
-{
-    private $bddInstance;
+require_once("manager.php");
 
-    public function __construct() {
-        $this->bddInstance = BDD::getInstance();
-        $this->bddInstance->openBDD();
+class UserManager extends Manager
+{
+    public function createTable()
+    {
+        $this->bddInstance->query("CREATE TABLE User
+                                  (
+                                  UserID int                 NOT NULL AUTO_INCREMENT,
+                                  Username varchar(255)      NOT NULL UNIQUE,
+                                  Email varchar(255)         NOT NULL UNIQUE,
+                                  Password varchar(255)      NOT NULL,
+                                  PRIMARY KEY(UserID)
+                                  );"
+                                 );
     }
 
     private function getAllUser()
@@ -16,24 +24,37 @@ class UserManager
 
     private function getUser($username, $password)
     {
-        return $this->bddInstance->query("SELECT Username, Email, Password FROM User
-                                         WHERE Username=\"" . $username . "\"
-                                         AND Password=\"" . $password . "\";");
+        try {
+            return $this->bddInstance
+                        ->prepExec("SELECT Username, Email, Password FROM User
+                                    WHERE Username = ? AND Password = ?;",
+                                    array($username, $password));
+        } catch (Exception $e) {
+            echo "Camagru Erreur: " . $e;
+            return false;
+        }
     }
 
     private function createUser($username, $email, $password)
     {
-        $this->bddInstance->prepExec("INSERT INTO User (Username, Email, Password)
-                                      VALUES (?, ?, ?);",
-                                      array($username, $email, $password));
+        try {
+            $this->bddInstance->prepExec("INSERT INTO User (Username, Email, Password)
+                                          VALUES (?, ?, ?);",
+                                          array($username, $email, $password));
+        } catch (Exception $e) {
+            echo "Camagru Erreur: " . $e;
+        }
     }
 
     private function userExist($username, $password)
     {
-        if ($this->getUser($username, $password)->rowCount() == 1) {
-            return true;
-        }
-        else {
+        try {
+            return $this->bddInstance
+                        ->prepExec("SELECT Username, Email, Password FROM User
+                                    WHERE Username = ? AND Password = ?;",
+                                    array($username, $password));
+        } catch (Exception $e) {
+            echo "Camagru Erreur: " . $e;
             return false;
         }
     }
@@ -54,7 +75,7 @@ class UserManager
 
     public function logout()
     {
-        $_SESSION['isLogged'] = false;
+        $_SESSION = array();
         session_destroy();
     }
 

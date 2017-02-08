@@ -28,8 +28,7 @@ class BDD extends Singleton
             $resp = $this->bdd->query($query);
             return $resp;
         } catch (Exception $e) {
-            echo "Camagru ERREUR: " . $e->getMessage();
-            return false;
+            throw new Exception($e);
         }
     }
 
@@ -37,11 +36,10 @@ class BDD extends Singleton
     {
         try {
             $req = $this->bdd->prepare($query);
-            $req->execute($value_arr);
-            return true;
+            $resp = $req->execute($value_arr);
+            return $resp;
         } catch(PDOException $e) {
-            echo "Camagru ERREUR: " . $e->getMessage();
-            return false;
+            throw new Exception($e);
         }
     }
 
@@ -52,15 +50,13 @@ class BDD extends Singleton
 
     public function createTable()
     {
-        $this->query("CREATE TABLE User
-                     (
-                     UserID int                 NOT NULL AUTO_INCREMENT,
-                     Username varchar(255)      NOT NULL UNIQUE,
-                     Email varchar(255)         NOT NULL UNIQUE,
-                     Password varchar(255)      NOT NULL,
-                     PRIMARY KEY(UserID)
-                     );"
-                    );
+        require_once("userManager.php");
+        require_once("imageManager.php");
+        $managers = [new UserManager(), new ImageManager()];
+
+        foreach ($managers as $manager) {
+            $manager->createTable();
+        }
     }
 
     public function openBDD($db_dsn=null, $db_user=null, $db_password=null)
