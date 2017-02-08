@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <html>
+  <style>
+    header {
+      width: 100%;
+      height: 50px;
+      background-color: black;
+    }
+    #header-text {
+      color: white;
+      text-align: left;
+      text-indent: 1%;
+      vertical-align: middle;
+      padding-top: 15px;
+    }
+    input {
+      float: right;
+    }
+  </style>
 
-  <header style="height:50px;width:100%;background-color:black;">
-    <p style="color:white;"> Welcome</p>
-    <input onclick="logout()" style="float:right;" type="submit" name="action" value="Logout" />
+  <header>
+    <p id=header-text> Welcome
+      <input onclick="logout()" type="submit" name="action" value="Logout" />
+    </p>
   </header>
 
   <script>
@@ -17,3 +35,4 @@
   </script>
 
 </html>
+
