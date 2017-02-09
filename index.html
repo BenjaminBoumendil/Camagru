@@ -35,8 +35,39 @@
       var ctx = canvas.getContext('2d');
       var localMediaStream = null;
 
+      function uploadFile() {
+        var file = document.getElementById("file_form").files[0];
+        xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/?img-upload", true);
+        xhttp.onload = function() {
+          if (xhttp.status === 200) {
+              console.log("FILE UPLOADED");
+          }
+        };
+        xhttp.send(file);
+      }
+
       var errorCallback = function(e) {
-        console.log('Reeeejected!', e);
+        console.log('Rejected!', e);
+
+        var form = document.createElement("div");
+        // form.setAttribute("method", "POST");
+        // form.setAttribute("enctype", "multipart/form-data");
+
+        var file_input = document.createElement("input");
+        file_input.setAttribute("type", "file");
+        file_input.setAttribute("id", "file_form");
+        file_input.setAttribute("name", "file");
+        file_input.setAttribute("accept", "image/*");
+
+        var button = document.createElement("input");
+        button.setAttribute("type", "submit");
+        button.setAttribute("value", "Submit");
+        button.addEventListener("click", uploadFile);
+
+        form.appendChild(file_input);
+        form.appendChild(button);
+        document.getElementById("main").appendChild(form);
       };
 
       function fallback() {

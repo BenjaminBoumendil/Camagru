@@ -1,6 +1,6 @@
 <?php
 
-require_once("manager.php");
+require_once("Manager.php");
 
 class ImageManager extends Manager
 {
@@ -35,6 +35,12 @@ class ImageManager extends Manager
     public function getAllImage()
     {
 
+    }
+
+    public function uploadImage()
+    {
+        $fd = fopen("test.txt", "x");
+        fclose($fd);
     }
 }
 

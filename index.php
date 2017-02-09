@@ -17,7 +17,10 @@ function index()
     $userManager = new UserManager();
     $urlParser = new UrlParser();
 
-    print_r($_SERVER);
+    // $fd = fopen("/home/ben/camagru/log.txt", "x");
+    // fclose($fd);
+
+    file_put_contents("/home/ben/camagru/log.txt", $_SERVER, FILE_APPEND);
 
     if ($userManager->isLogged() == false)
     {
