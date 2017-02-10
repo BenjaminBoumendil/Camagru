@@ -48,24 +48,8 @@
       }
 
       var errorCallback = function(e) {
-        console.log('Rejected!', e);
-
-        var form = document.createElement("div");
-
-        var file_input = document.createElement("input");
-        file_input.setAttribute("type", "file");
-        file_input.setAttribute("id", "file_form");
-        file_input.setAttribute("name", "file");
-        file_input.setAttribute("accept", "image/*");
-
-        var button = document.createElement("input");
-        button.setAttribute("type", "submit");
-        button.setAttribute("value", "Submit");
-        button.addEventListener("click", uploadFile);
-
-        form.appendChild(file_input);
-        form.appendChild(button);
-        document.getElementById("main").appendChild(form);
+        document.getElementById("imgForm").style.visibility = "visible";
+        canvas.style.visibility = "hidden";
       };
 
       function fallback() {

@@ -19,7 +19,7 @@
   </style>
 
   <header>
-    <p id=header-text> Welcome
+    <p id="header-text"> Welcome
       <input onclick="logout()" type="submit" name="action" value="Logout" />
     </p>
   </header>

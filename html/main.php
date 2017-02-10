@@ -13,7 +13,21 @@
 
     <br />
 
+    <form method="POST" enctype="multipart/form-data" action="/?img-upload" id="imgForm" style="visibility: hidden;">
+      <input type="file" id="file_form" name="file" accept="image/*" /><br />
+    </form>
+
+    <input onclick="imgForm()" type="submit" value="Submit">
+
     <video autoplay></video>
   </div>
+
+<script>
+  function imgForm() {
+    console.log("form");
+    document.getElementById("imgForm").submit();
+    window.location.href = "/";
+  }
+</script>
 
 </html>

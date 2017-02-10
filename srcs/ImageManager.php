@@ -39,11 +39,14 @@ class ImageManager extends Manager
 
     public function uploadImage()
     {
-        file_put_contents(getcwd() . "../log.txt", $_FILES, FILE_APPEND);
-        print_r($_FILES);
-        $fd = fopen(getcwd() . "../img/test.txt", "x");
-        fclose($fd);
-        http_response_code(202);
+        $target = getcwd() . "/img/" . $_FILES["file"]["name"];
+
+        if (move_uploaded_file($_FILES["file"]["tmp_name"], $target)) {
+          http_response_code(201);
+        }
+        else {
+          http_response_code(400);
+        }
     }
 }
 
