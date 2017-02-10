@@ -76,12 +76,13 @@ class UserManager extends Manager
                 "You are now registred as " . $_POST['username'] .
                 "and your password is " . $_POST['password']
                 );
+            return 201;
         }
+        return 400;
     }
 
     public function login()
     {
-        $_SESSION['username'] = $_POST['username'];
         $_SESSION['isLogged'] = $this->userExist($_POST['username'], $_POST['password']);
     }
 

@@ -16,12 +16,11 @@ class HttpHandler
     {
         if (!isset($_POST['username']) && !isset($_POST['password'])) {
             include("html/register.php");
-            http_response_code(202);
         }
         else
         {
             if ($_POST['action'] == "register") {
-                $this->userManager->register();
+                http_response_code($this->userManager->register());
             }
             $this->userManager->login();
         }
