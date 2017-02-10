@@ -42,6 +42,7 @@ class ImageManager extends Manager
         $target = getcwd() . "/img/" . $_FILES["file"]["name"];
 
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $target)) {
+          $this->createImage($_FILES["file"]["name"], $target);
           http_response_code(201);
         }
         else {
