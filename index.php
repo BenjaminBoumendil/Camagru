@@ -14,32 +14,11 @@ function __autoload($class_name) {
 
 function index()
 {
-    $userManager = new UserManager();
-    $urlParser = new UrlParser();
-
-    // $fd = fopen("/home/ben/camagru/log.txt", "x");
-    // fclose($fd);
+    $httpHandler = new HttpHandler();
 
     file_put_contents("/home/ben/camagru/log.txt", $_SERVER, FILE_APPEND);
 
-    if ($userManager->isLogged() == false)
-    {
-        if (!isset($_POST['username']) && !isset($_POST['password'])) {
-            include("html/register.php");
-        }
-        else
-        {
-            if ($_POST['action'] == "register") {
-                $userManager->register();
-            }
-            $userManager->login();
-        }
-    }
-    else
-    {
-        include("index.html");
-        $urlParser->urlParse();
-    }
+    $httpHandler->handle();
 }
 
 index();

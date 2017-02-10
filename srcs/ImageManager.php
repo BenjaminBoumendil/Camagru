@@ -39,8 +39,11 @@ class ImageManager extends Manager
 
     public function uploadImage()
     {
-        $fd = fopen("test.txt", "x");
+        file_put_contents(getcwd() . "../log.txt", $_FILES, FILE_APPEND);
+        print_r($_FILES);
+        $fd = fopen(getcwd() . "../img/test.txt", "x");
         fclose($fd);
+        http_response_code(202);
     }
 }
 

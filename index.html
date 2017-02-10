@@ -40,7 +40,7 @@
         xhttp = new XMLHttpRequest();
         xhttp.open("POST", "/?img-upload", true);
         xhttp.onload = function() {
-          if (xhttp.status === 200) {
+          if (xhttp.status === 202) {
               console.log("FILE UPLOADED");
           }
         };
@@ -51,8 +51,6 @@
         console.log('Rejected!', e);
 
         var form = document.createElement("div");
-        // form.setAttribute("method", "POST");
-        // form.setAttribute("enctype", "multipart/form-data");
 
         var file_input = document.createElement("input");
         file_input.setAttribute("type", "file");
