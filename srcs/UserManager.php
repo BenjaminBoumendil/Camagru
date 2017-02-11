@@ -32,9 +32,8 @@ class UserManager extends Manager
         try {
             $req = $this->bddInstance
                         ->prepare("SELECT UserID, Username, Email, Password FROM User
-                                  WHERE Username = ? AND Password = ?;");
-            $hash_password = password_hash($password, PASSWORD_DEFAULT);
-            $this->bddInstance->execute($req, array($username, $hash_password));
+                                  WHERE Username = ? AND Password = SHA(?);");
+            $this->bddInstance->execute($req, array($username, $password));
             return $req->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             echo "Camagru Erreur: " . $e;
@@ -45,10 +44,9 @@ class UserManager extends Manager
     private function createUser($username, $email, $password)
     {
         try {
-            $hash_password = password_hash($password, PASSWORD_DEFAULT);
             $this->bddInstance->prepExec("INSERT INTO User (Username, Email, Password)
-                                          VALUES (?, ?, ?);",
-                                          array($username, $email, $hash_password));
+                                          VALUES (?, ?, SHA(?));",
+                                          array($username, $email, $password));
         } catch (Exception $e) {
             echo "Camagru Erreur: " . $e;
         }
