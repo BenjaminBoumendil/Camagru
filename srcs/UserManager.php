@@ -47,8 +47,10 @@ class UserManager extends Manager
             $this->bddInstance->prepExec("INSERT INTO User (Username, Email, Password)
                                           VALUES (?, ?, SHA(?));",
                                           array($username, $email, $password));
+            return true;
         } catch (Exception $e) {
             echo "Camagru Erreur: " . $e;
+            return false;
         }
     }
 
@@ -76,12 +78,14 @@ class UserManager extends Manager
         if ($this->argCheck($_POST['username']) &&
             isset($_POST['email']) && $this->argCheck($_POST['password']))
         {
-            $this->createUser($_POST["username"], $_POST["email"], $_POST["password"]);
-            mail($_POST["email"], "Welcome",
-                "You are now registred as " . $_POST['username'] .
-                "and your password is " . $_POST['password']
-                );
-            return 201;
+            if ($this->createUser($_POST["username"], $_POST["email"], $_POST["password"]))
+            {
+                mail($_POST["email"], "Welcome",
+                    "You are now registred as " . $_POST['username'] .
+                    "and your password is " . $_POST['password']
+                    );
+                return 201;
+            }
         }
         return 400;
     }

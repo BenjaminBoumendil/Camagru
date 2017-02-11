@@ -24,7 +24,6 @@
 
 <script>
   function imgForm() {
-    console.log("form");
     document.getElementById("imgForm").submit();
     window.location.href = "/";
   }
