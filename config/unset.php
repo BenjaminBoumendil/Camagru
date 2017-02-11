@@ -1,6 +1,6 @@
 <?php
 
-include("srcs/bdd.php");
+include("srcs/BDD.php");
 
 echo "Unset Script" . PHP_EOL . PHP_EOL;
 

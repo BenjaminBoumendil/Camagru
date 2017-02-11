@@ -29,7 +29,7 @@
         xhttp = new XMLHttpRequest();
         xhttp.open("GET", "/?logout", true);
         xhttp.send();
-        window.location.href = "/";
+        window.location.reload();
     }
   </script>
 

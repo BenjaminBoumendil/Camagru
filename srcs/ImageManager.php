@@ -11,7 +11,9 @@ class ImageManager extends Manager
                                   ImageID int           NOT NULL AUTO_INCREMENT,
                                   Name varchar(255)     NOT NULL,
                                   File varchar(255)     NOT NULL,
-                                  PRIMARY KEY (ImageID)
+                                  UserFK int,
+                                  PRIMARY KEY (ImageID),
+                                  FOREIGN KEY (UserFK) REFERENCES User(UserID)
                                   )
                                   ");
     }
@@ -19,9 +21,9 @@ class ImageManager extends Manager
     public function createImage($name, $file)
     {
         try {
-            $this->bddInstance->prepExec("INSERT INTO Image (Name, File)
-                                         VALUES (?, ?);",
-                                         array($name, $file));
+            $this->bddInstance->prepExec("INSERT INTO Image (Name, File, UserFK)
+                                         VALUES (?, ?, ?);",
+                                         array($name, $file, $_SESSION["UserID"]));
         } catch (Exception $e) {
             echo "Camagru Erreur: " . $e;
         }
@@ -42,12 +44,10 @@ class ImageManager extends Manager
         $target = getcwd() . "/img/" . $_FILES["file"]["name"];
 
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $target)) {
-          $this->createImage($_FILES["file"]["name"], $target);
-          http_response_code(201);
+            $this->createImage($_FILES["file"]["name"], $target);
+            return 201;
         }
-        else {
-          http_response_code(400);
-        }
+        return 400;
     }
 }
 

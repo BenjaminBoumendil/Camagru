@@ -1,6 +1,6 @@
 <?php
 
-include("srcs/bdd.php");
+include("srcs/BDD.php");
 
 echo "Setup Script" . PHP_EOL . PHP_EOL;
 

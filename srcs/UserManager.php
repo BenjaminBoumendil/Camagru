@@ -31,9 +31,10 @@ class UserManager extends Manager
     {
         try {
             $req = $this->bddInstance
-                        ->prepare("SELECT Username, Email, Password FROM User
+                        ->prepare("SELECT UserID, Username, Email, Password FROM User
                                   WHERE Username = ? AND Password = ?;");
-            $this->bddInstance->execute($req, array($username, $password));
+            $hash_password = password_hash($password, PASSWORD_DEFAULT);
+            $this->bddInstance->execute($req, array($username, $hash_password));
             return $req->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             echo "Camagru Erreur: " . $e;
@@ -44,9 +45,10 @@ class UserManager extends Manager
     private function createUser($username, $email, $password)
     {
         try {
+            $hash_password = password_hash($password, PASSWORD_DEFAULT);
             $this->bddInstance->prepExec("INSERT INTO User (Username, Email, Password)
                                           VALUES (?, ?, ?);",
-                                          array($username, $email, $password));
+                                          array($username, $email, $hash_password));
         } catch (Exception $e) {
             echo "Camagru Erreur: " . $e;
         }
@@ -66,6 +68,11 @@ class UserManager extends Manager
         }
     }
 
+    public function getCurrentUser($username, $password)
+    {
+        return $this->getUser($username, $password);
+    }
+
     public function register()
     {
         if ($this->argCheck($_POST['username']) &&
@@ -83,7 +90,15 @@ class UserManager extends Manager
 
     public function login()
     {
-        $_SESSION['isLogged'] = $this->userExist($_POST['username'], $_POST['password']);
+        if ($this->userExist($_POST['username'], $_POST['password']))
+        {
+            $_SESSION['isLogged'] = true;
+            $_SESSION['UserID'] = $this->getCurrentUser($_POST['username'], $_POST['password'])[0]['UserID'];
+        }
+        else
+        {
+            $_SESSION['isLogged'] = false;
+        }
     }
 
     public function logout()

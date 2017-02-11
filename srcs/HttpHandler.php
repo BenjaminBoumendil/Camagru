@@ -22,6 +22,9 @@ class HttpHandler
             if ($_POST['action'] == "register") {
                 http_response_code($this->userManager->register());
             }
+            else {
+                http_response_code(202);
+            }
             $this->userManager->login();
         }
     }
@@ -33,7 +36,7 @@ class HttpHandler
         if ($qs['path'] == "logout") {
             $this->userManager->logout();
         } elseif ($qs['path'] == "img-upload") {
-            $this->imageManager->uploadImage();
+            http_response_code($this->imageManager->uploadImage());
         } else {
             include("index.html");
         }

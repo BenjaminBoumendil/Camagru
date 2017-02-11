@@ -16,7 +16,7 @@ function index()
 {
     $httpHandler = new HttpHandler();
 
-    file_put_contents("/home/ben/camagru/log.txt", $_SERVER, FILE_APPEND);
+    file_put_contents(getcwd() . "/log.txt", $_SERVER, FILE_APPEND);
 
     $httpHandler->handle();
 }

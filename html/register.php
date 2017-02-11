@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<form method="POST" action="" id="registerForm">
+<form onsubmit="refresh();" method="POST" action="" id="registerForm">
     <p>Register Form</p><br />
 
     <p>Username</p>
@@ -12,15 +12,23 @@
 
     <p>Password</p>
     <input type="password" name="password" /><br /><br />
+    <input type="submit" name="action" value="register" />
+    <input type="submit" name="action" value="login" />
 </form>
 
-<input onclick="register()" type="submit" name="action" value="register" />
-<input onclick="register()" type="submit" name="action" value="login" />
 
 <script>
-    function register() {
-        document.getElementById("registerForm").submit();
-        window.location.href = "/";
+    function refresh() {
+        // document.getElementById("registerForm").submit();
+        // window.location.href = "/";
+        // window.location.reload();
+        // xhttp = new XMLHttpRequest();
+        // xhttp.open("GET", "/", true);
+        // xhttp.send();
+        // window.location.reload();
+        // window.location.refresh(true);
+        // alert("test");
+        return false;
     }
 </script>
 
