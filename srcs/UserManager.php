@@ -4,6 +4,9 @@ require_once("Manager.php");
 
 class UserManager extends Manager
 {
+    /*
+    * Create database tables for User entity
+    */
     public function createTable()
     {
         $this->bddInstance->query("CREATE TABLE User
@@ -27,6 +30,9 @@ class UserManager extends Manager
         }
     }
 
+    /*
+    * return One user in format array(array()) or false
+    */
     private function getUser($username, $password)
     {
         try {
@@ -41,6 +47,10 @@ class UserManager extends Manager
         }
     }
 
+    /*
+    * Create a user with SQL parameters for SQL INJECTION
+    * return true in success otherwise false
+    */
     private function createUser($username, $email, $password)
     {
         try {
@@ -54,11 +64,18 @@ class UserManager extends Manager
         }
     }
 
+    /*
+    * return true if user is in database otherwise false
+    */
     private function userExist($username, $password)
     {
         return count($this->getUser($username, $password)) == 1 ?? false;
     }
 
+    /*
+    * Check for username and password string
+    * check if not null, if string is alphanumeric, have no space
+    */
     private function argCheck($arg)
     {
         if (isset($arg) && ctype_alnum($arg) && !preg_match('/\s/', $arg)) {
@@ -68,11 +85,10 @@ class UserManager extends Manager
         }
     }
 
-    public function getCurrentUser($username, $password)
-    {
-        return $this->getUser($username, $password);
-    }
-
+    /*
+    * Register a user and send a mail
+    * return 201 in success or 400
+    */
     public function register()
     {
         if ($this->argCheck($_POST['username']) &&
@@ -90,12 +106,17 @@ class UserManager extends Manager
         return 400;
     }
 
+    /*
+    * Login a user and set session variables:
+    *   isLogged : for easy logged user check
+    *   UserID : for easy user data retrieve
+    */
     public function login()
     {
         if ($this->userExist($_POST['username'], $_POST['password']))
         {
             $_SESSION['isLogged'] = true;
-            $_SESSION['UserID'] = $this->getCurrentUser($_POST['username'], $_POST['password'])[0]['UserID'];
+            $_SESSION['UserID'] = $this->getUser($_POST['username'], $_POST['password'])[0]['UserID'];
         }
         else
         {
@@ -103,12 +124,18 @@ class UserManager extends Manager
         }
     }
 
+    /*
+    * Logout user set SESSION to empty array and destroy SESSION
+    */
     public function logout()
     {
         $_SESSION = array();
         session_destroy();
     }
 
+    /*
+    * return true if user is logged otherwise false
+    */
     public function isLogged()
     {
         return $_SESSION['isLogged'] ?? false;

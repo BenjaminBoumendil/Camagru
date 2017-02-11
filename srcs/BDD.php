@@ -22,6 +22,10 @@ class BDD extends Singleton
 {
     private $bdd = null;
 
+    /*
+    * Execute a query, no safe to SQL INJECTION
+    * return query result in success otherwise throw an Exception
+    */
     public function query($query)
     {
         try {
@@ -32,6 +36,10 @@ class BDD extends Singleton
         }
     }
 
+    /*
+    * Prepare a query can accept some driver
+    * return prepared query in success otherwise throw an Exception
+    */
     public function prepare($query, $driver=array())
     {
         try {
@@ -41,6 +49,10 @@ class BDD extends Singleton
         }
     }
 
+    /*
+    * Execute a prepared query with an array of value
+    * return query result in success otherwise throw an Exception
+    */
     public function execute($request, $param)
     {
         try {
@@ -50,6 +62,10 @@ class BDD extends Singleton
         }
     }
 
+    /*
+    * Prepare and execute a query with an array of value in one time
+    * return query result in success otherwise throw an Exception
+    */
     public function prepExec($query, $value_arr)
     {
         try {
@@ -61,11 +77,17 @@ class BDD extends Singleton
         }
     }
 
+    /*
+    * Utils function to create the project database
+    */
     public function createBDD()
     {
         $this->query("CREATE DATABASE camagru;");
     }
 
+    /*
+    * Utils function to create all project table
+    */
     public function createTable()
     {
         require_once("UserManager.php");
@@ -77,6 +99,11 @@ class BDD extends Singleton
         }
     }
 
+    /*
+    * Open PDO connection to database and save it in bdd class variable
+    * Use config/database.php connection info by default
+    * set PDO attribute to handle database error
+    */
     public function openBDD($db_dsn=null, $db_user=null, $db_password=null)
     {
         try {
@@ -92,6 +119,9 @@ class BDD extends Singleton
         }
     }
 
+    /*
+    * Close PDO connection to database
+    */
     public function closeBDD()
     {
         $this->bdd = null;

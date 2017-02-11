@@ -4,6 +4,9 @@ require_once("Manager.php");
 
 class ImageManager extends Manager
 {
+    /*
+    * Create database table for Image Entity
+    */
     public function createTable()
     {
         $this->bddInstance->query("CREATE TABLE Image
@@ -18,14 +21,20 @@ class ImageManager extends Manager
                                   ");
     }
 
+    /*
+    * Create an image with SQL param for SQL INJECTION
+    * return true in success otherwise false
+    */
     public function createImage($name, $file)
     {
         try {
             $this->bddInstance->prepExec("INSERT INTO Image (Name, File, UserFK)
                                          VALUES (?, ?, ?);",
                                          array($name, $file, $_SESSION["UserID"]));
+            return true;
         } catch (Exception $e) {
             echo "Camagru Erreur: " . $e;
+            return false;
         }
     }
 
@@ -39,11 +48,18 @@ class ImageManager extends Manager
 
     }
 
+    /*
+    * Upload an image, save image in "img" directory
+    * return 201 in success otherwise 400
+    */
     public function uploadImage()
     {
         $target = getcwd() . "/img/" . $_FILES["file"]["name"];
+        $dst_image = getcwd() . "/img/thumb_" . $_FILES["file"]["name"];
 
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $target)) {
+            imagecopyresized($dst_image, $target, 0, 0, 0, 0,
+                               280, 280, 720, 720);
             $this->createImage($_FILES["file"]["name"], $target);
             return 201;
         }
