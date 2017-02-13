@@ -39,9 +39,24 @@ class ImageManager extends Manager
         }
     }
 
-    public function getAllImagesByUser()
+    /*
+    * return all images from user in success otherwise false
+    * if no user given, take current user
+    * Store error in SESSION["BDDError"]
+    */
+    public function getAllImagesByUser($userID=null)
     {
+        $userID = $userID ?? $_SESSION['UserID'];
 
+        try {
+            $request = $this->bddInstance->prepare("SELECT * FROM Image
+                                                    WHERE UserFK = ?;");
+            $this->bddInstance->execute($request, array($userID));
+            return $request->fetchAll();
+        } catch (Exception $e) {
+            $_SESSION["BDDError"] = "getAllImagesByUser Error: " . $e;
+            return false;
+        }
     }
 
     /*
@@ -51,7 +66,7 @@ class ImageManager extends Manager
     public function getAllImages()
     {
         try {
-            return $this->bddInstance->query("SELECT * FROM Image;");
+            return $this->bddInstance->query("SELECT * FROM Image;")->fetchAll();
         } catch (Exception $e) {
             $_SESSION["BDDError"] = "getAllImages Error: " . $e;
             return false;
