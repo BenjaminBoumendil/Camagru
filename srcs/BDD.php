@@ -92,7 +92,8 @@ class BDD extends Singleton
     {
         require_once("UserManager.php");
         require_once("ImageManager.php");
-        $managers = [new UserManager(), new ImageManager()];
+        require_once("CommentManager.php");
+        $managers = [new UserManager(), new ImageManager(), new CommentManager()];
 
         foreach ($managers as $manager) {
             $manager->createTable();
@@ -107,7 +108,11 @@ class BDD extends Singleton
     public function openBDD($db_dsn=null, $db_user=null, $db_password=null)
     {
         try {
-            require_once($_SERVER["DOCUMENT_ROOT"] . "/config/database.php");
+            if (!isset($_SERVER["DOCUMENT_ROOT"])) {
+                require_once($_SERVER["DOCUMENT_ROOT"] . "/config/database.php");
+            } else {
+                require_once("config/database.php");
+            }
             if (!isset($this->bdd)) {
                 $this->bdd = new PDO($db_dsn ?? $DB_DSN,
                                      $db_user ?? $DB_USER,

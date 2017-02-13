@@ -11,6 +11,9 @@ class HttpHandler
         $this->imageManager = new ImageManager();
     }
 
+    /*
+    * Handle register and logging
+    */
     private function registerAndLog()
     {
         if (!isset($_POST['username']) && !isset($_POST['password'])) {
@@ -28,6 +31,9 @@ class HttpHandler
         }
     }
 
+    /*
+    * Handle site functionality for register user
+    */
     private function site()
     {
         $qs = parse_url($_SERVER['QUERY_STRING']);
@@ -41,6 +47,9 @@ class HttpHandler
         }
     }
 
+    /*
+    * Check if User is logged or not
+    */
     public function handle()
     {
         if ($this->userManager->isLogged() == false) {
