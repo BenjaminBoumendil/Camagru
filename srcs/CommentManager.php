@@ -18,6 +18,24 @@ class CommentManager extends Manager
                                   )
                                   ");
     }
+
+    /*
+    * Create a comment with SQL param for SQL INJECTION
+    * return true in success otherwise false
+    * Store error in SESSION["BDDError"]
+    */
+    public function createComment($comment, $imageID, $userID)
+    {
+        try {
+            $this->bddInstance->prepExec("INSERT INTO Comment (Content, ImageFK, UserFK)
+                                         VALUES (?, ?, ?);",
+                                         array($comment, $imageID, $userID));
+            return true;
+        } catch (Exception $e) {
+            $_SERVER['BDDError'] = "createComment Error: " . $e;
+            return false;
+        }
+    }
 }
 
 ?>

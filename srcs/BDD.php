@@ -120,7 +120,7 @@ class BDD extends Singleton
                 $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
         } catch (Exception $e) {
-            die("Camagru Erreur : " . $e->getMessage());
+            die("Camagru Error : " . $e->getMessage());
         }
     }
 
