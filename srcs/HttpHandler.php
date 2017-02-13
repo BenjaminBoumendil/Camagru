@@ -34,7 +34,7 @@ class HttpHandler
 
         if ($qs['path'] == "logout") {
             $this->userManager->logout();
-        } elseif ($_SERVER['REQUEST_URI'] == '/' && $qs['path'] == "img-upload") {
+        } elseif ($qs['path'] == "img-upload") {
             http_response_code($this->imageManager->uploadImage());
         } else {
             include("index.html");

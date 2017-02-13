@@ -17,6 +17,8 @@
         $imageManager = new ImageManager();
         $imgArray = $imageManager->getAllImages()->fetchAll();
 
+        print_r($imgArray);
+
         foreach ($imgArray as $img) {
             echo "<img src=/img/" .
                   $img['Name'] .

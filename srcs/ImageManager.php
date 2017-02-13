@@ -65,11 +65,11 @@ class ImageManager extends Manager
     public function uploadImage()
     {
         $target = getcwd() . "/img/" . $_FILES["file"]["name"];
-        $dst_image = getcwd() . "/img/thumb_" . $_FILES["file"]["name"];
+        // $dst_image = getcwd() . "/img/thumb_" . $_FILES["file"]["name"];
 
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $target)) {
-            imagecopyresized($dst_image, $target, 0, 0, 0, 0,
-                               280, 280, 720, 720);
+            // imagecopyresized($dst_image, $target, 0, 0, 0, 0,
+            //                    280, 280, 720, 720);
             $this->createImage($_FILES["file"]["name"], $target);
             return 201;
         }

@@ -33,10 +33,7 @@
         window.location.reload();
     }
     function gallery() {
-        xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/?gallery", true);
-        xhttp.send();
-        window.location.reload();
+        window.location.href = "/gallery"
     }
   </script>
 
