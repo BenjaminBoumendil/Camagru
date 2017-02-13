@@ -2,7 +2,6 @@
 
 class HttpHandler
 {
-    private $url_array = [];
     private $userManager;
     private $imageManager;
 
@@ -15,7 +14,7 @@ class HttpHandler
     private function registerAndLog()
     {
         if (!isset($_POST['username']) && !isset($_POST['password'])) {
-            include("html/register.php");
+            include($_SERVER["DOCUMENT_ROOT"] . "/html/register.php");
         }
         else
         {
@@ -35,7 +34,7 @@ class HttpHandler
 
         if ($qs['path'] == "logout") {
             $this->userManager->logout();
-        } elseif ($qs['path'] == "img-upload") {
+        } elseif ($_SERVER['REQUEST_URI'] == '/' && $qs['path'] == "img-upload") {
             http_response_code($this->imageManager->uploadImage());
         } else {
             include("index.html");

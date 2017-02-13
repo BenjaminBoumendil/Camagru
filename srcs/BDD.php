@@ -23,7 +23,7 @@ class BDD extends Singleton
     private $bdd = null;
 
     /*
-    * Execute a query, no safe to SQL INJECTION
+    * Execute a query, not safe to SQL INJECTION
     * return query result in success otherwise throw an Exception
     */
     public function query($query)
@@ -37,7 +37,7 @@ class BDD extends Singleton
     }
 
     /*
-    * Prepare a query can accept some driver
+    * Prepare a query, can accept some driver
     * return prepared query in success otherwise throw an Exception
     */
     public function prepare($query, $driver=array())
@@ -50,7 +50,7 @@ class BDD extends Singleton
     }
 
     /*
-    * Execute a prepared query with an array of value
+    * Execute a prepared query with an array of value, safe to SQL INJECTION
     * return query result in success otherwise throw an Exception
     */
     public function execute($request, $param)
@@ -107,7 +107,7 @@ class BDD extends Singleton
     public function openBDD($db_dsn=null, $db_user=null, $db_password=null)
     {
         try {
-            require_once("config/database.php");
+            require_once($_SERVER["DOCUMENT_ROOT"] . "/config/database.php");
             if (!isset($this->bdd)) {
                 $this->bdd = new PDO($db_dsn ?? $DB_DSN,
                                      $db_user ?? $DB_USER,

@@ -19,8 +19,9 @@
   </style>
 
   <header>
-    <p id="header-text"> Welcome
+    <p id="header-text">Welcome <?php echo $_SESSION["Username"]; ?>
       <input onclick="logout()" type="submit" name="action" value="Logout" />
+      <input onclick="gallery()" type="submit" name="action" value="Gallery" />
     </p>
   </header>
 
@@ -28,6 +29,12 @@
     function logout() {
         xhttp = new XMLHttpRequest();
         xhttp.open("GET", "/?logout", true);
+        xhttp.send();
+        window.location.reload();
+    }
+    function gallery() {
+        xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/?gallery", true);
         xhttp.send();
         window.location.reload();
     }

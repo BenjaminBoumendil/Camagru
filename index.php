@@ -3,10 +3,11 @@
 session_start();
 
 function __autoload($class_name) {
-    $dir_list = ["srcs/"];
+    $dir_list = ["/srcs/"];
     foreach ($dir_list as $dir) {
-        if (file_exists($dir . $class_name . '.php')) {
-            require_once($dir . $class_name . '.php');
+        $file_dir = $_SERVER["DOCUMENT_ROOT"] . $dir;
+        if (file_exists($file_dir . $class_name . '.php')) {
+            require_once($file_dir . $class_name . '.php');
             break ;
         }
     }
@@ -15,8 +16,6 @@ function __autoload($class_name) {
 function index()
 {
     $httpHandler = new HttpHandler();
-
-    file_put_contents(getcwd() . "/log.txt", $_SERVER, FILE_APPEND);
 
     $httpHandler->handle();
 }

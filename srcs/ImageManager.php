@@ -24,6 +24,7 @@ class ImageManager extends Manager
     /*
     * Create an image with SQL param for SQL INJECTION
     * return true in success otherwise false
+    * Store error in SESSION["BDDError"]
     */
     public function createImage($name, $file)
     {
@@ -33,19 +34,28 @@ class ImageManager extends Manager
                                          array($name, $file, $_SESSION["UserID"]));
             return true;
         } catch (Exception $e) {
-            echo "Camagru Erreur: " . $e;
+            $_SESSION["BDDError"] = "createImage Error: " . $e;
             return false;
         }
     }
 
-    public function getAllImageByUser()
+    public function getAllImagesByUser()
     {
 
     }
 
-    public function getAllImage()
+    /*
+    * return all images in success otherwise false
+    * Store error in SESSION["BDDError"]
+    */
+    public function getAllImages()
     {
-
+        try {
+            return $this->bddInstance->query("SELECT * FROM Image;");
+        } catch (Exception $e) {
+            $_SESSION["BDDError"] = "getAllImages Error: " . $e;
+            return false;
+        }
     }
 
     /*

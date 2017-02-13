@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+  <style>
+  </style>
+
+  <head>
+    <meta charset="utf-8" />
+    <title>Gallery</title>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <?php include($_SERVER["DOCUMENT_ROOT"] . "/html/header.php"); ?>
+
+    <?php
+        $imageManager = new ImageManager();
+        $imgArray = $imageManager->getAllImages()->fetchAll();
+
+        foreach ($imgArray as $img) {
+            echo "<img src=/img/" .
+                  $img['Name'] .
+                  " /><br />";
+        }
+    ?>
+
+    <!-- Footer -->
+    <?php include($_SERVER["DOCUMENT_ROOT"] . "/html/footer.php"); ?>
+  </body>
+
+</html>

@@ -20,29 +20,34 @@ class UserManager extends Manager
                                  );
     }
 
+    /*
+    * return all user in success otherwise false
+    * Store error in SESSION["BDDError"]
+    */
     private function getAllUser()
     {
         try {
             return $this->bddInstance->query("SELECT * FROM User;");
         } catch (Exception $e) {
-            echo "Camagru Erreur: " . $e;
+            $_SESSION["BDDError"] = "getAllUser error: " . $e;
             return false;
         }
     }
 
     /*
     * return One user in format array(array()) or false
+    * Store error in SESSION["BDDError"]
     */
     private function getUser($username, $password)
     {
         try {
-            $req = $this->bddInstance
+            $request = $this->bddInstance
                         ->prepare("SELECT UserID, Username, Email, Password FROM User
                                   WHERE Username = ? AND Password = SHA(?);");
-            $this->bddInstance->execute($req, array($username, $password));
-            return $req->fetchAll(PDO::FETCH_ASSOC);
+            $this->bddInstance->execute($request, array($username, $password));
+            return $request->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            echo "Camagru Erreur: " . $e;
+            $_SESSION["BDDError"] = "getUser Error: " . $e;
             return false;
         }
     }
@@ -50,6 +55,7 @@ class UserManager extends Manager
     /*
     * Create a user with SQL parameters for SQL INJECTION
     * return true in success otherwise false
+    * Store error in SESSION["BDDError"]
     */
     private function createUser($username, $email, $password)
     {
@@ -59,7 +65,7 @@ class UserManager extends Manager
                                           array($username, $email, $password));
             return true;
         } catch (Exception $e) {
-            echo "Camagru Erreur: " . $e;
+            $_SESSION["BDDError"] = "createUser Error: " . $e;
             return false;
         }
     }
@@ -110,13 +116,16 @@ class UserManager extends Manager
     * Login a user and set session variables:
     *   isLogged : for easy logged user check
     *   UserID : for easy user data retrieve
+    *   Username
     */
     public function login()
     {
         if ($this->userExist($_POST['username'], $_POST['password']))
         {
+            $current_user = $this->getUser($_POST['username'], $_POST['password'])[0];
             $_SESSION['isLogged'] = true;
-            $_SESSION['UserID'] = $this->getUser($_POST['username'], $_POST['password'])[0]['UserID'];
+            $_SESSION['UserID'] = $current_user['UserID'];
+            $_SESSION['Username'] = $current_user['Username'];
         }
         else
         {
