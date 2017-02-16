@@ -107,12 +107,13 @@ class BDD extends Singleton
     */
     public function openBDD($db_dsn=null, $db_user=null, $db_password=null)
     {
+        if ($_SERVER["DOCUMENT_ROOT"] == "") {
+            require_once("config/database.php");
+        } else {
+            require_once($_SERVER["DOCUMENT_ROOT"] . "/config/database.php");
+        }
+
         try {
-            if (!isset($_SERVER["DOCUMENT_ROOT"])) {
-                require_once($_SERVER["DOCUMENT_ROOT"] . "/config/database.php");
-            } else {
-                require_once("config/database.php");
-            }
             if (!isset($this->bdd)) {
                 $this->bdd = new PDO($db_dsn ?? $DB_DSN,
                                      $db_user ?? $DB_USER,

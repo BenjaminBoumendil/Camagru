@@ -19,10 +19,13 @@
   </style>
 
   <header>
-    <p id="header-text">Welcome <?php echo $_SESSION["Username"]; ?>
+    <div id="header-text">
+      <a href="/">Home</a>
+      Welcome
+      <?php echo $_SESSION["Username"]; ?>
       <input onclick="logout()" type="submit" name="action" value="Logout" />
       <input onclick="gallery()" type="submit" name="action" value="Gallery" />
-    </p>
+    </div>
   </header>
 
   <script>
