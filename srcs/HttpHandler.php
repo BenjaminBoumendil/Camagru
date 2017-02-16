@@ -4,11 +4,13 @@ class HttpHandler
 {
     private $userManager;
     private $imageManager;
+    private $commentManager;
 
     public function __construct()
     {
         $this->userManager = new UserManager();
         $this->imageManager = new ImageManager();
+        $this->commentManager = new CommentManager();
     }
 
     /*
@@ -37,11 +39,15 @@ class HttpHandler
     private function site()
     {
         $qs = parse_url($_SERVER['QUERY_STRING']);
+        print_r($_SESSION['BDDError']);
 
         if ($qs['path'] == "logout") {
             $this->userManager->logout();
         } elseif ($qs['path'] == "img-upload") {
             http_response_code($this->imageManager->uploadImage());
+        } elseif ($qs['path'] == "comment-upload") {
+            // print_r($_SERVER);
+            http_response_code($this->commentManager->uploadComment());
         } else {
             include("index.html");
         }

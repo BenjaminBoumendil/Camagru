@@ -10,8 +10,8 @@ class CommentManager extends Manager
                                   (
                                   CommentID int         NOT NULL AUTO_INCREMENT,
                                   Content varchar(255)  NOT NULL,
-                                  ImageFK int,
-                                  UserFK int,
+                                  ImageFK int           NOT NULL,
+                                  UserFK int            NOT NULL,
                                   PRIMARY KEY (CommentID),
                                   FOREIGN KEY (ImageFK) REFERENCES Image(ImageID),
                                   FOREIGN KEY (UserFK) REFERENCES User(UserID)
@@ -24,7 +24,7 @@ class CommentManager extends Manager
     * return true in success otherwise false
     * Store error in SESSION["BDDError"]
     */
-    public function createComment($comment, $imageID, $userID)
+    private function createComment($comment, $imageID, $userID)
     {
         try {
             $this->bddInstance->prepExec("INSERT INTO Comment (Content, ImageFK, UserFK)
@@ -35,6 +35,35 @@ class CommentManager extends Manager
             $_SERVER['BDDError'] = "createComment Error: " . $e;
             return false;
         }
+    }
+
+    /*
+    * return all comments by imageID in success otherwise false
+    * Store error in SESSION["BDDError"]
+    */
+    public function getAllCommentsByImage($imageID)
+    {
+        try {
+            $request = $this->bddInstance->prepare("SELECT * FROM Comment
+                                                    WHERE ImageFK = ?;");
+            $this->bddInstance->execute($request, array($imageID));
+            return $request->fetchAll();
+        } catch (Exception $e) {
+            $_SERVER['BDDError'] = "createComment Error: " . $e;
+            return false;
+        }
+    }
+
+    /*
+    * Upload a comment
+    * return 201 in success otherwise 400
+    */
+    public function uploadComment()
+    {
+        if ($this->createComment($_POST['comment'], $_POST['imageID'], $_SESSION['UserID'])) {
+            return 201;
+        }
+        return 400;
     }
 }
 

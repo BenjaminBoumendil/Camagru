@@ -17,17 +17,38 @@
 
     <?php
         $imageManager = new ImageManager();
+        $commentManager = new CommentManager();
+
         $imgArray = $imageManager->getAllImages();
 
         foreach ($imgArray as $img) {
-            echo "<img src=/img/" .
-                  $img['Name'] .
-                  " /><br />";
+            $commentArray = $commentManager->getAllCommentsByImage($img['ImageID']);
+
+            foreach ($commentArray as $comment) {
+                $imgComment .= "<p>" . $comment['Content'] . "</p>";
+            }
+
+            $imgField = "<img src=/img/" . $img['Name'] . " /><br />";
+            $commentForm = "<form onsubmit='refreshGallery();' id='commentForm' method='POST' action='/gallery/?comment-upload'>
+                              <textarea name='comment' cols='40' rows='5'></textarea>
+                              <input type='hidden' value=" . $img['ImageID'] . " name='imageID' />
+                              <input type='submit' />
+                            </form>
+                           ";
+
+            echo $imgField . $imgComment .  $commentForm;
         }
     ?>
 
     <!-- Footer -->
     <?php include($_SERVER["DOCUMENT_ROOT"] . "/html/footer.php"); ?>
   </body>
+
+  <script>
+    function refreshGallery() {
+      window.location.href = '/gallery';
+      window.location.reload();
+    }
+  </script>
 
 </html>

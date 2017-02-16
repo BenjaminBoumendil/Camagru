@@ -36,7 +36,7 @@
         window.location.reload();
     }
     function gallery() {
-        window.location.href = "/gallery"
+        window.location.href = "/gallery";
     }
   </script>
 
