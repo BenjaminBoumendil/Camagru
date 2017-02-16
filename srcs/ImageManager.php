@@ -14,6 +14,7 @@ class ImageManager extends Manager
                                   ImageID int           NOT NULL AUTO_INCREMENT,
                                   Name varchar(255)     NOT NULL,
                                   File varchar(255)     NOT NULL,
+                                  uploadDate DATETIME   DEFAULT CURRENT_TIMESTAMP,
                                   UserFK int,
                                   PRIMARY KEY (ImageID),
                                   FOREIGN KEY (UserFK) REFERENCES User(UserID)
@@ -66,7 +67,9 @@ class ImageManager extends Manager
     public function getAllImages()
     {
         try {
-            return $this->bddInstance->query("SELECT * FROM Image;")->fetchAll();
+            return $this->bddInstance
+                        ->query("SELECT * FROM Image ORDER BY uploadDate DESC;")
+                        ->fetchAll();
         } catch (Exception $e) {
             $_SESSION["BDDError"] = "getAllImages Error: " . $e;
             return false;
