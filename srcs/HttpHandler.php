@@ -2,15 +2,15 @@
 
 class HttpHandler
 {
-    private $userManager;
-    private $imageManager;
-    private $commentManager;
+    private $userController;
+    private $imageController;
+    private $commentController;
 
     public function __construct()
     {
-        $this->userManager = new UserManager();
-        $this->imageManager = new ImageManager();
-        $this->commentManager = new CommentManager();
+        $this->userController = new UserController();
+        $this->imageController = new ImageController();
+        $this->commentController = new CommentController();
     }
 
     /*
@@ -24,12 +24,12 @@ class HttpHandler
         else
         {
             if ($_POST['action'] == "register") {
-                http_response_code($this->userManager->register());
+                http_response_code($this->userController->register());
             }
             else {
                 http_response_code(202);
             }
-            $this->userManager->login();
+            $this->userController->login();
         }
     }
 
@@ -42,12 +42,11 @@ class HttpHandler
         print_r($_SESSION['BDDError']);
 
         if ($qs['path'] == "logout") {
-            $this->userManager->logout();
+            $this->userController->logout();
         } elseif ($qs['path'] == "img-upload") {
-            http_response_code($this->imageManager->uploadImage());
+            http_response_code($this->imageController->uploadImage());
         } elseif ($qs['path'] == "comment-upload") {
-            // print_r($_SERVER);
-            http_response_code($this->commentManager->uploadComment());
+            http_response_code($this->commentController->uploadComment());
         } else {
             include("index.html");
         }
@@ -58,7 +57,7 @@ class HttpHandler
     */
     public function handle()
     {
-        if ($this->userManager->isLogged() == false) {
+        if ($this->userController->isLogged() == false) {
             $this->registerAndLog();
         }
         else {

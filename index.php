@@ -3,7 +3,7 @@
 session_start();
 
 function __autoload($class_name) {
-    $dir_list = ["/srcs/"];
+    $dir_list = ["/srcs/", "/controller/", "/entity/"];
     foreach ($dir_list as $dir) {
         $file_dir = $_SERVER["DOCUMENT_ROOT"] . $dir;
         if (file_exists($file_dir . $class_name . '.php')) {

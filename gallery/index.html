@@ -16,13 +16,13 @@
     <br />
 
     <?php
-        $imageManager = new ImageManager();
-        $commentManager = new CommentManager();
+        $imageController = new ImageController();
+        $commentController = new CommentController();
 
-        $imgArray = $imageManager->getAllImages();
+        $imgArray = $imageController->getAll();
 
         foreach ($imgArray as $img) {
-            $commentArray = $commentManager->getAllCommentsByImage($img['ImageID']);
+            $commentArray = $commentController->getAllByImage($img['ImageID']);
 
             foreach ($commentArray as $comment) {
                 $imgComment .= "<p>" . $comment['Content'] . "</p>";

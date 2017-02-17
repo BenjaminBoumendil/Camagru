@@ -1,8 +1,6 @@
 <?php
 
-require_once("Manager.php");
-
-class ImageManager extends Manager
+class ImageEntity extends Entity
 {
     /*
     * Create database table for Image Entity
@@ -27,7 +25,7 @@ class ImageManager extends Manager
     * return true in success otherwise false
     * Store error in SESSION["BDDError"]
     */
-    public function createImage($name, $file)
+    protected function create($name, $file)
     {
         try {
             $this->bddInstance->prepExec("INSERT INTO Image (Name, File, UserFK)
@@ -45,7 +43,7 @@ class ImageManager extends Manager
     * if no user given, take current user
     * Store error in SESSION["BDDError"]
     */
-    public function getAllImagesByUser($userID=null)
+    protected function getAllByUser($userID=null)
     {
         $userID = $userID ?? $_SESSION['UserID'];
 
@@ -64,7 +62,7 @@ class ImageManager extends Manager
     * return all images in success otherwise false
     * Store error in SESSION["BDDError"]
     */
-    public function getAllImages()
+    public function getAll()
     {
         try {
             return $this->bddInstance
@@ -74,24 +72,6 @@ class ImageManager extends Manager
             $_SESSION["BDDError"] = "getAllImages Error: " . $e;
             return false;
         }
-    }
-
-    /*
-    * Upload an image, save image in "img" directory
-    * return 201 in success otherwise 400
-    */
-    public function uploadImage()
-    {
-        $target = getcwd() . "/img/" . $_FILES["file"]["name"];
-        // $dst_image = getcwd() . "/img/thumb_" . $_FILES["file"]["name"];
-
-        if (move_uploaded_file($_FILES["file"]["tmp_name"], $target)) {
-            // imagecopyresized($dst_image, $target, 0, 0, 0, 0,
-            //                    280, 280, 720, 720);
-            $this->createImage($_FILES["file"]["name"], $target);
-            return 201;
-        }
-        return 400;
     }
 }
 

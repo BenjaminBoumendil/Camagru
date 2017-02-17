@@ -90,10 +90,7 @@ class BDD extends Singleton
     */
     public function createTable()
     {
-        require_once("UserManager.php");
-        require_once("ImageManager.php");
-        require_once("CommentManager.php");
-        $managers = [new UserManager(), new ImageManager(), new CommentManager()];
+        $managers = [new UserEntity(), new ImageEntity(), new CommentEntity()];
 
         foreach ($managers as $manager) {
             $manager->createTable();

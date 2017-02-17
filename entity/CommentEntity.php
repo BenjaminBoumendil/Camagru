@@ -1,8 +1,6 @@
 <?php
 
-require_once("Manager.php");
-
-class CommentManager extends Manager
+class CommentEntity extends Entity
 {
     public function createTable()
     {
@@ -24,7 +22,7 @@ class CommentManager extends Manager
     * return true in success otherwise false
     * Store error in SESSION["BDDError"]
     */
-    private function createComment($comment, $imageID, $userID)
+    protected function create($comment, $imageID, $userID)
     {
         try {
             $this->bddInstance->prepExec("INSERT INTO Comment (Content, ImageFK, UserFK)
@@ -41,7 +39,7 @@ class CommentManager extends Manager
     * return all comments by imageID in success otherwise false
     * Store error in SESSION["BDDError"]
     */
-    public function getAllCommentsByImage($imageID)
+    public function getAllByImage($imageID)
     {
         try {
             $request = $this->bddInstance->prepare("SELECT * FROM Comment
@@ -52,18 +50,6 @@ class CommentManager extends Manager
             $_SERVER['BDDError'] = "createComment Error: " . $e;
             return false;
         }
-    }
-
-    /*
-    * Upload a comment
-    * return 201 in success otherwise 400
-    */
-    public function uploadComment()
-    {
-        if ($this->createComment($_POST['comment'], $_POST['imageID'], $_SESSION['UserID'])) {
-            return 201;
-        }
-        return 400;
     }
 }
 
