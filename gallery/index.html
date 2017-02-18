@@ -2,6 +2,17 @@
 <html>
 
   <style>
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px, 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
   </style>
 
   <head>
@@ -17,10 +28,11 @@
 
     <?php
         $imageController = new ImageController();
+        $gallery = $imageController->gallery();
 
-        foreach ($imageController->gallery() as $gallery) {
-            echo $gallery;
-        }
+        echo $imageController->getPagination(count($gallery)) . "<br />";
+
+        echo $gallery[$_SERVER['QUERY_STRING'] - 1];
     ?>
 
     <!-- Footer -->

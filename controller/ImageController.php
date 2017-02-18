@@ -2,15 +2,29 @@
 
 class ImageController extends ImageEntity
 {
+    /*
+    * return html for pagination
+    */
+    public function getPagination($gallerySize)
+    {
+        $pagination = "<div class='pagination'>";
+
+        for ($i = 1; $i < $gallerySize + 1; $i++) {
+            $pagination .= "<a href='?" . $i . "'>" . $i . "</a>";
+        }
+
+        $pagination .= "</div>";
+
+        return $pagination;
+    }
 
     /*
-    * html generator for gallery page
-    * Yield html for one image and his comments
+    * return an array of all image and comments in gallery
     */
     public function gallery()
     {
         $commentController = new CommentController();
-
+        $gallery = array();
         $imgArray = $this->getAll();
 
         foreach ($imgArray as $img) {
@@ -18,8 +32,10 @@ class ImageController extends ImageEntity
             $imgComment = $commentController->getByImage($img['ImageID']);
             $commentForm = $commentController->getForm($img['ImageID']);
 
-            yield $imgField . $imgComment . $commentForm;
+            array_push($gallery, $imgField . $imgComment . $commentForm);
         }
+
+        return $gallery;
     }
 
     /*
