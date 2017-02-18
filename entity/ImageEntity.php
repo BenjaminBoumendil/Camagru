@@ -62,7 +62,7 @@ class ImageEntity extends Entity
     * return all images in success otherwise false
     * Store error in SESSION["BDDError"]
     */
-    public function getAll()
+    protected function getAll()
     {
         try {
             return $this->bddInstance

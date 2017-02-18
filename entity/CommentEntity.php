@@ -39,7 +39,7 @@ class CommentEntity extends Entity
     * return all comments by imageID in success otherwise false
     * Store error in SESSION["BDDError"]
     */
-    public function getAllByImage($imageID)
+    protected function getAllByImage($imageID)
     {
         try {
             $request = $this->bddInstance->prepare("SELECT * FROM Comment

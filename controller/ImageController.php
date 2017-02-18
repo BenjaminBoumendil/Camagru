@@ -2,6 +2,26 @@
 
 class ImageController extends ImageEntity
 {
+
+    /*
+    * html generator for gallery page
+    * Yield html for one image and his comments
+    */
+    public function gallery()
+    {
+        $commentController = new CommentController();
+
+        $imgArray = $this->getAll();
+
+        foreach ($imgArray as $img) {
+            $imgField = "<img src=/img/" . $img['Name'] . " /><br />";
+            $imgComment = $commentController->getByImage($img['ImageID']);
+            $commentForm = $commentController->getForm($img['ImageID']);
+
+            yield $imgField . $imgComment . $commentForm;
+        }
+    }
+
     /*
     * Upload an image, save image in "img" directory
     * return 201 in success otherwise 400
