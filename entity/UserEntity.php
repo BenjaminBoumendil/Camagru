@@ -3,7 +3,7 @@
 class UserEntity extends Entity
 {
     /*
-    * Create database tables for User entity
+    * Create database table for User entity
     */
     public function createTable()
     {
@@ -33,7 +33,7 @@ class UserEntity extends Entity
     }
 
     /*
-    * return One user in format array(array()) or false
+    * return one user in format array(array()) or false
     * Store error in SESSION["BDDError"]
     */
     protected function getOne($username, $password)

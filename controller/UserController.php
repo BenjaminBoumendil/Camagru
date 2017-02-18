@@ -12,11 +12,11 @@ class UserController extends UserEntity
 
     /*
     * Check for username and password string
-    * check if not null, if string is alphanumeric, have no space
+    * not null, alphanumeric string, no space
     */
-    private function argCheck($arg)
+    private function argCheck($str)
     {
-        if (isset($arg) && ctype_alnum($arg) && !preg_match('/\s/', $arg)) {
+        if (isset($str) && ctype_alnum($str) && !preg_match('/\s/', $str)) {
             return true;
         } else {
             return false;
@@ -46,9 +46,9 @@ class UserController extends UserEntity
 
     /*
     * Login a user and set session variables:
-    *   isLogged : for easy logged user check
-    *   UserID : for easy user data retrieve
-    *   Username
+    *   isLogged : boolean for current logged user
+    *   UserID : ID for current user
+    *   Username : Username for current user
     */
     public function login()
     {
@@ -66,7 +66,7 @@ class UserController extends UserEntity
     }
 
     /*
-    * Logout user set SESSION to empty array and destroy SESSION
+    * Logout user, destroy SESSION
     */
     public function logout()
     {
