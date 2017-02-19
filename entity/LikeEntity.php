@@ -4,7 +4,7 @@ class LikeEntity extends Entity
 {
     public function createTable()
     {
-        $this->dbInstance->query("CREATE TABLE Like
+        $this->dbInstance->query("CREATE TABLE IF NOT EXISTS UserLikeImage
                                   (
                                   LikeID int            NOT NULL AUTO_INCREMENT,
                                   ImageFK int           NOT NULL,
@@ -13,7 +13,26 @@ class LikeEntity extends Entity
                                   FOREIGN KEY (ImageFK) REFERENCES Image(ImageID),
                                   FOREIGN KEY (UserFK) REFERENCES User(UserID)
                                   )
-                                  ");
+                                 ;"
+                                );
+    }
+
+    /*
+    * Get all like from one user
+    * return like list in success otherwise false
+    * Store error in SESSION["DBError"]
+    */
+    protected function getByUser($userID)
+    {
+      try {
+          $request = $this->dbInstance->prepare("SELECT * FROM Like
+                                                 WHERE UserFK = ?;");
+          $this->dbInstance->execute($request, array($userID));
+          return $request->fetchAll();
+      } catch (Exception $e) {
+          $_SESSION['DBError'] = "getByUser Error: " . $e;
+          return false;
+      }
     }
 
     /*

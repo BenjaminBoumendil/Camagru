@@ -7,7 +7,7 @@ class ImageEntity extends Entity
     */
     public function createTable()
     {
-        $this->dbInstance->query("CREATE TABLE Image
+        $this->dbInstance->query("CREATE TABLE IF NOT EXISTS Image
                                   (
                                   ImageID int           NOT NULL AUTO_INCREMENT,
                                   Name varchar(255)     NOT NULL,

@@ -82,7 +82,11 @@ class Database extends Singleton
     */
     public function createDB()
     {
-        $this->query("CREATE DATABASE camagru;");
+        try {
+            $this->query("CREATE DATABASE IF NOT EXISTS camagru;");
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 
     /*

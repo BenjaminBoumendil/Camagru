@@ -7,7 +7,7 @@ class UserEntity extends Entity
     */
     public function createTable()
     {
-        $this->dbInstance->query("CREATE TABLE User
+        $this->dbInstance->query("CREATE TABLE IF NOT EXISTS User
                                   (
                                   UserID int                 NOT NULL AUTO_INCREMENT,
                                   Username varchar(255)      NOT NULL UNIQUE,

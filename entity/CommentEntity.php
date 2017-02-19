@@ -4,7 +4,7 @@ class CommentEntity extends Entity
 {
     public function createTable()
     {
-        $this->dbInstance->query("CREATE TABLE Comment
+        $this->dbInstance->query("CREATE TABLE IF NOT EXISTS Comment
                                   (
                                   CommentID int         NOT NULL AUTO_INCREMENT,
                                   Content varchar(255)  NOT NULL,

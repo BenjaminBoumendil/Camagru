@@ -24,6 +24,7 @@ class ImageController extends ImageEntity
     public function gallery()
     {
         $commentController = new CommentController();
+        $likeController = new LikeController();
         $gallery = array();
         $imgArray = $this->getAll();
 
@@ -31,8 +32,9 @@ class ImageController extends ImageEntity
             $imgField = "<img src=/img/" . $img['Name'] . " /><br />";
             $imgComment = $commentController->getByImage($img['ImageID']);
             $commentForm = $commentController->getForm($img['ImageID']);
+            $likeButton = $likeController->getButton($img['ImageID']);
 
-            array_push($gallery, $imgField . $imgComment . $commentForm);
+            array_push($gallery, $imgField . $imgComment . $commentForm . $likeButton);
         }
 
         return $gallery;
