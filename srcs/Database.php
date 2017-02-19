@@ -18,9 +18,9 @@ class Singleton
     }
 }
 
-class BDD extends Singleton
+class Database extends Singleton
 {
-    private $bdd = null;
+    private $db = null;
 
     /*
     * Execute a query, not safe to SQL INJECTION
@@ -29,7 +29,7 @@ class BDD extends Singleton
     public function query($query)
     {
         try {
-            $resp = $this->bdd->query($query);
+            $resp = $this->db->query($query);
             return $resp;
         } catch (Exception $e) {
             throw new Exception($e);
@@ -43,7 +43,7 @@ class BDD extends Singleton
     public function prepare($query, $driver=array())
     {
         try {
-            return $this->bdd->prepare($query, $driver);
+            return $this->db->prepare($query, $driver);
         } catch (PDOException $e) {
             throw new Exception($e);
         }
@@ -69,7 +69,7 @@ class BDD extends Singleton
     public function prepExec($query, $value_arr)
     {
         try {
-            $req = $this->bdd->prepare($query);
+            $req = $this->db->prepare($query);
             $resp = $req->execute($value_arr);
             return $resp;
         } catch(PDOException $e) {
@@ -80,7 +80,7 @@ class BDD extends Singleton
     /*
     * Utils function to create the project database
     */
-    public function createBDD()
+    public function createDB()
     {
         $this->query("CREATE DATABASE camagru;");
     }
@@ -102,7 +102,7 @@ class BDD extends Singleton
     * Use config/database.php connection info by default
     * set PDO attribute to handle database error
     */
-    public function openBDD($db_dsn=null, $db_user=null, $db_password=null)
+    public function openDB($db_dsn=null, $db_user=null, $db_password=null)
     {
         if ($_SERVER["DOCUMENT_ROOT"] == "") {
             require_once("config/database.php");
@@ -111,11 +111,11 @@ class BDD extends Singleton
         }
 
         try {
-            if (!isset($this->bdd)) {
-                $this->bdd = new PDO($db_dsn ?? $DB_DSN,
+            if (!isset($this->db)) {
+                $this->db = new PDO($db_dsn ?? $DB_DSN,
                                      $db_user ?? $DB_USER,
                                      $db_password ?? $DB_PASSWORD);
-                $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
         } catch (Exception $e) {
             die("Camagru Error : " . $e->getMessage());
@@ -125,9 +125,9 @@ class BDD extends Singleton
     /*
     * Close PDO connection to database
     */
-    public function closeBDD()
+    public function closeDB()
     {
-        $this->bdd = null;
+        $this->db = null;
     }
 }
 

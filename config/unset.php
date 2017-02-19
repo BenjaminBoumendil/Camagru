@@ -1,17 +1,17 @@
 <?php
 
-include("srcs/BDD.php");
+include("srcs/Database.php");
 
 echo "Unset Script" . PHP_EOL . PHP_EOL;
 
-$bdd = BDD::getInstance();
+$db = Database::getInstance();
 
-$bdd->openBDD("mysql:host=localhost;charset=utf8;");
-echo "BDD opened" . PHP_EOL;
+$db->openDB("mysql:host=localhost;charset=utf8;");
+echo "DB opened" . PHP_EOL;
 
-$bdd->query("DROP DATABASE camagru;");
+$db->query("DROP DATABASE camagru;");
 
-$bdd->closeBDD();
-echo "BDD closed" . PHP_EOL;
+$db->closeDB();
+echo "DB closed" . PHP_EOL;
 
 ?>
