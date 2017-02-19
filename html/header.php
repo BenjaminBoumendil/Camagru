@@ -6,7 +6,7 @@
       height: 50px;
       background-color: black;
     }
-    #header-text {
+    #white-text {
       color: white;
       text-align: left;
       text-indent: 1%;
@@ -19,7 +19,7 @@
   </style>
 
   <header>
-    <div id="header-text">
+    <div id="white-text">
       <a href="/">Home</a>
       Welcome
       <?php echo $_SESSION["Username"]; ?>

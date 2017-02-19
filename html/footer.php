@@ -2,10 +2,10 @@
 <html>
   <style>
     footer {
-        background-color: green;
+        background-color: black;
     }
   </style>
 
-  <footer>Footer</footer>
+  <footer id="white-text">Footer</footer>
 
 </html>
