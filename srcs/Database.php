@@ -90,7 +90,8 @@ class Database extends Singleton
     */
     public function createTable()
     {
-        $managers = [new UserEntity(), new ImageEntity(), new CommentEntity()];
+        $managers = [new UserEntity(), new ImageEntity(), new CommentEntity(),
+                     new LikeEntity()];
 
         foreach ($managers as $manager) {
             $manager->createTable();

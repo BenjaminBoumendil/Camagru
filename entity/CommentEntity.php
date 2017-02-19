@@ -30,7 +30,7 @@ class CommentEntity extends Entity
                                          array($comment, $imageID, $userID));
             return true;
         } catch (Exception $e) {
-            $_SERVER['DBError'] = "createComment Error: " . $e;
+            $_SESSION['DBError'] = "create Error: " . $e;
             return false;
         }
     }
@@ -47,7 +47,7 @@ class CommentEntity extends Entity
             $this->dbInstance->execute($request, array($imageID));
             return $request->fetchAll();
         } catch (Exception $e) {
-            $_SERVER['DBError'] = "createComment Error: " . $e;
+            $_SESSION['DBError'] = "getAllByImage Error: " . $e;
             return false;
         }
     }
