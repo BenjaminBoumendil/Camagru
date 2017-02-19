@@ -29,7 +29,7 @@ class UserController extends UserEntity
     */
     private function emailCheck($email)
     {
-        if (isset($email) && filter_var($email, FILTER_VAR_EMAIL)) {
+        if (isset($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return true;
         } else {
             return false;
