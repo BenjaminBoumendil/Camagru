@@ -2,15 +2,15 @@
 
 abstract class Entity
 {
-    protected $bddInstance;
+    protected $dbInstance;
 
     public function __construct() {
-        $this->bddInstance = Database::getInstance();
-        $this->bddInstance->openDB();
+        $this->dbInstance = Database::getInstance();
+        $this->dbInstance->openDB();
     }
 
     public function __destruct() {
-        $this->bddInstance->closeDB();
+        $this->dbInstance->closeDB();
     }
 
     abstract public function createTable();

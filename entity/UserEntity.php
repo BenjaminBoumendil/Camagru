@@ -7,7 +7,7 @@ class UserEntity extends Entity
     */
     public function createTable()
     {
-        $this->bddInstance->query("CREATE TABLE User
+        $this->dbInstance->query("CREATE TABLE User
                                   (
                                   UserID int                 NOT NULL AUTO_INCREMENT,
                                   Username varchar(255)      NOT NULL UNIQUE,
@@ -20,32 +20,32 @@ class UserEntity extends Entity
 
     /*
     * return all user in success otherwise false
-    * Store error in SESSION["BDDError"]
+    * Store error in SESSION["DBError"]
     */
     protected function getAll()
     {
         try {
-            return $this->bddInstance->query("SELECT * FROM User;");
+            return $this->dbInstance->query("SELECT * FROM User;");
         } catch (Exception $e) {
-            $_SESSION["BDDError"] = "getAllUser error: " . $e;
+            $_SESSION["DBError"] = "getAllUser error: " . $e;
             return false;
         }
     }
 
     /*
     * return one user in format array(array()) or false
-    * Store error in SESSION["BDDError"]
+    * Store error in SESSION["DBError"]
     */
     protected function getOne($username, $password)
     {
         try {
-            $request = $this->bddInstance
+            $request = $this->dbInstance
                         ->prepare("SELECT UserID, Username, Email, Password FROM User
                                   WHERE Username = ? AND Password = SHA(?);");
-            $this->bddInstance->execute($request, array($username, $password));
+            $this->dbInstance->execute($request, array($username, $password));
             return $request->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            $_SESSION["BDDError"] = "getUser Error: " . $e;
+            $_SESSION["DBError"] = "getUser Error: " . $e;
             return false;
         }
     }
@@ -53,17 +53,17 @@ class UserEntity extends Entity
     /*
     * Create a user with SQL parameters for SQL INJECTION
     * return true in success otherwise false
-    * Store error in SESSION["BDDError"]
+    * Store error in SESSION["DBError"]
     */
     protected function create($username, $email, $password)
     {
         try {
-            $this->bddInstance->prepExec("INSERT INTO User (Username, Email, Password)
+            $this->dbInstance->prepExec("INSERT INTO User (Username, Email, Password)
                                           VALUES (?, ?, SHA(?));",
                                           array($username, $email, $password));
             return true;
         } catch (Exception $e) {
-            $_SESSION["BDDError"] = "createUser Error: " . $e;
+            $_SESSION["DBError"] = "createUser Error: " . $e;
             return false;
         }
     }

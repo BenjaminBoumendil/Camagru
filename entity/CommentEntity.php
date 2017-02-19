@@ -4,7 +4,7 @@ class CommentEntity extends Entity
 {
     public function createTable()
     {
-        $this->bddInstance->query("CREATE TABLE Comment
+        $this->dbInstance->query("CREATE TABLE Comment
                                   (
                                   CommentID int         NOT NULL AUTO_INCREMENT,
                                   Content varchar(255)  NOT NULL,
@@ -20,34 +20,34 @@ class CommentEntity extends Entity
     /*
     * Create a comment with SQL param for SQL INJECTION
     * return true in success otherwise false
-    * Store error in SESSION["BDDError"]
+    * Store error in SESSION["DBError"]
     */
     protected function create($comment, $imageID, $userID)
     {
         try {
-            $this->bddInstance->prepExec("INSERT INTO Comment (Content, ImageFK, UserFK)
+            $this->dbInstance->prepExec("INSERT INTO Comment (Content, ImageFK, UserFK)
                                          VALUES (?, ?, ?);",
                                          array($comment, $imageID, $userID));
             return true;
         } catch (Exception $e) {
-            $_SERVER['BDDError'] = "createComment Error: " . $e;
+            $_SERVER['DBError'] = "createComment Error: " . $e;
             return false;
         }
     }
 
     /*
     * return all comments by imageID in success otherwise false
-    * Store error in SESSION["BDDError"]
+    * Store error in SESSION["DBError"]
     */
     protected function getAllByImage($imageID)
     {
         try {
-            $request = $this->bddInstance->prepare("SELECT * FROM Comment
+            $request = $this->dbInstance->prepare("SELECT * FROM Comment
                                                     WHERE ImageFK = ?;");
-            $this->bddInstance->execute($request, array($imageID));
+            $this->dbInstance->execute($request, array($imageID));
             return $request->fetchAll();
         } catch (Exception $e) {
-            $_SERVER['BDDError'] = "createComment Error: " . $e;
+            $_SERVER['DBError'] = "createComment Error: " . $e;
             return false;
         }
     }
