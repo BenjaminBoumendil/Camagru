@@ -24,13 +24,27 @@ class UserController extends UserEntity
     }
 
     /*
+    * Check for email string
+    * not null, php email filter
+    */
+    private function emailCheck($email)
+    {
+        if (isset($email) && filter_var($email, FILTER_VAR_EMAIL)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*
     * Register a user and send a mail
     * return 201 in success or 400
     */
     public function register()
     {
         if ($this->argCheck($_POST['username']) &&
-            isset($_POST['email']) && $this->argCheck($_POST['password']))
+            $this->emailCheck($_POST['email']) &&
+            $this->argCheck($_POST['password']))
         {
             if ($this->create($_POST["username"], $_POST["email"], $_POST["password"]))
             {
