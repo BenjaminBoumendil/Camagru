@@ -32,7 +32,11 @@
 
         echo $imageController->getPagination(count($gallery)) . "<br />";
 
-        echo $gallery[$_SERVER['QUERY_STRING'] - 1];
+        if ($_SERVER['QUERY_STRING']) {
+            echo $gallery[$_SERVER['QUERY_STRING'] - 1];
+        } else {
+            echo $gallery[0];
+        }
     ?>
 
     <!-- Footer -->
