@@ -20,8 +20,9 @@ class ImageController extends ImageEntity
 
     /*
     * return an array of all image and comments in gallery
+    * add comment and like form if $isList = true
     */
-    public function gallery()
+    public function gallery($isList=false)
     {
         $commentController = new CommentController();
         $likeController = new LikeController();
@@ -34,7 +35,11 @@ class ImageController extends ImageEntity
             $commentForm = $commentController->getForm($img['ImageID']);
             $likeForm = $likeController->getForm($img['ImageID']);
 
-            array_push($gallery, $imgField . $imgComment . $commentForm . $likeForm);
+            if ($isList == true) {
+                array_push($gallery, $imgField . $imgComment);
+            } else {
+                array_push($gallery, $imgField . $imgComment . $commentForm . $likeForm);
+            }
         }
 
         return $gallery;

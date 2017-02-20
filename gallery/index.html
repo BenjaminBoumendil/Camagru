@@ -28,14 +28,20 @@
 
     <?php
         $imageController = new ImageController();
-        $gallery = $imageController->gallery();
 
-        echo $imageController->getPagination(count($gallery)) . "<br />";
 
         if ($_SERVER['QUERY_STRING']) {
+            $gallery = $imageController->gallery();
+
+            echo $imageController->getPagination(count($gallery)) . "<br />";
             echo $gallery[$_SERVER['QUERY_STRING'] - 1];
         } else {
-            echo $gallery[0];
+            $gallery = $imageController->gallery(true);
+
+            echo $imageController->getPagination(count($gallery)) . "<br />";
+            foreach ($gallery as $img) {
+                echo $img . "<br />";
+            }
         }
     ?>
 
