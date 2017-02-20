@@ -12,6 +12,7 @@ class ImageEntity extends Entity
                                   ImageID int           NOT NULL AUTO_INCREMENT,
                                   Name varchar(255)     NOT NULL,
                                   File varchar(255)     NOT NULL,
+                                  Thumb varchar(255)    NOT NULL,
                                   uploadDate DATETIME   DEFAULT CURRENT_TIMESTAMP,
                                   UserFK int,
                                   PRIMARY KEY (ImageID),
@@ -25,12 +26,12 @@ class ImageEntity extends Entity
     * return true in success otherwise false
     * Store error in SESSION["DBError"]
     */
-    protected function create($name, $file)
+    protected function create($name, $file, $thumb)
     {
         try {
-            $this->dbInstance->prepExec("INSERT INTO Image (Name, File, UserFK)
-                                         VALUES (?, ?, ?);",
-                                         array($name, $file, $_SESSION["UserID"]));
+            $this->dbInstance->prepExec("INSERT INTO Image (Name, File, Thumb, UserFK)
+                                         VALUES (?, ?, ?, ?);",
+                                         array($name, $file, $thumb, $_SESSION["UserID"]));
             return true;
         } catch (Exception $e) {
             $_SESSION["DBError"] = "createImage Error: " . $e;

@@ -46,18 +46,34 @@ class ImageController extends ImageEntity
     }
 
     /*
+    * Create thumbnail of $src in $dest
+    */
+    private function makeThumb($src, $dest, $desiredWidth, $desiredHeight)
+    {
+        $sourceImage = imagecreatefromjpeg($src);
+        $width = imagesx($sourceImage);
+        $height = imagesy($sourceImage);
+
+        $virtualImage = imagecreatetruecolor($desiredWidth, $desiredHeight);
+
+        imagecopyresampled($virtualImage, $sourceImage, 0, 0, 0, 0, $desiredWidth, $desiredHeight, $width, $height);
+
+        imagejpeg($virtualImage, $dest);
+    }
+
+    /*
     * Upload an image, save image in "img" directory
     * return 201 in success otherwise 400
     */
     public function uploadImage()
     {
-        $target = $_SERVER["DOCUMENT_ROOT"] . "/img/" . $_FILES["file"]["name"];
-        // $dst_image = getcwd() . "/img/thumb_" . $_FILES["file"]["name"];
+        $fileName = uniqid('img_') . '.jpeg';
+        $target = $_SERVER["DOCUMENT_ROOT"] . "/img/" . $fileName;
+        $thumbDest = $_SERVER["DOCUMENT_ROOT"] . "/img/thumb_" . $fileName;
 
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $target)) {
-            // imagecopyresized($dst_image, $target, 0, 0, 0, 0,
-            //                    280, 280, 720, 720);
-            $this->create($_FILES["file"]["name"], $target);
+            $this->makeThumb($target, $thumbDest, 240, 240);
+            $this->create($fileName, $target, $thumbDest);
             return 201;
         }
         return 400;
