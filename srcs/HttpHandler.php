@@ -5,12 +5,14 @@ class HttpHandler
     private $userController;
     private $imageController;
     private $commentController;
+    private $likeController;
 
     public function __construct()
     {
         $this->userController = new UserController();
         $this->imageController = new ImageController();
         $this->commentController = new CommentController();
+        $this->likeController = new LikeController();
     }
 
     /*
@@ -23,7 +25,7 @@ class HttpHandler
         }
         else
         {
-            if ($_POST['action'] == "register") {
+            if (isset($_POST['email'])) {
                 http_response_code($this->userController->register());
             }
             else {
@@ -39,14 +41,15 @@ class HttpHandler
     private function site()
     {
         $qs = parse_url($_SERVER['QUERY_STRING']);
-        print_r($_SESSION['BDDError']);
 
         if ($qs['path'] == "logout") {
             $this->userController->logout();
-        } elseif ($qs['path'] == "img-upload") {
+        } elseif ($_POST['action'] == "image") {
             http_response_code($this->imageController->uploadImage());
-        } elseif ($qs['path'] == "comment-upload") {
+        } elseif ($_POST['action'] == "comment") {
             http_response_code($this->commentController->uploadComment());
+        } elseif ($_POST['action'] == "like") {
+            http_response_code($this->likeController->like());
         } else {
             include("index.html");
         }

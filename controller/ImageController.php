@@ -32,9 +32,9 @@ class ImageController extends ImageEntity
             $imgField = "<img src=/img/" . $img['Name'] . " /><br />";
             $imgComment = $commentController->getByImage($img['ImageID']);
             $commentForm = $commentController->getForm($img['ImageID']);
-            $likeButton = $likeController->getButton($img['ImageID']);
+            $likeForm = $likeController->getForm($img['ImageID']);
 
-            array_push($gallery, $imgField . $imgComment . $commentForm . $likeButton);
+            array_push($gallery, $imgField . $imgComment . $commentForm . $likeForm);
         }
 
         return $gallery;

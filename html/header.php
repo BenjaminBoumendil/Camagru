@@ -13,7 +13,7 @@
       vertical-align: middle;
       padding-top: 15px;
     }
-    input {
+    #header-right {
       float: right;
     }
   </style>
@@ -23,8 +23,8 @@
       <a href="/">Home</a>
       Welcome
       <?php echo $_SESSION["Username"]; ?>
-      <input onclick="logout()" type="submit" name="action" value="Logout" />
-      <input onclick="gallery()" type="submit" name="action" value="Gallery" />
+      <input id='header-right' onclick="logout()" type="submit" name="action" value="Logout" />
+      <input id='header-right' onclick="gallery()" type="submit" name="action" value="Gallery" />
     </div>
   </header>
 

@@ -2,10 +2,28 @@
 
 class LikeController extends LikeEntity
 {
-    public function getButton($imageID)
+    /*
+    * Get like form for one image
+    * return html form
+    */
+    public function getForm($imageID)
     {
-        $button = "<input type="submit" name="action" value="Like" />";
-        return $button;
+        $form = "<div>
+                   <form method='POST' id='likeForm'>
+                     <input type='hidden' name='action' value='like' />
+                     <input onclick='likeForm();' type='button' value='Like' />
+                   </form>
+                 </div><br />";
+        return $form;
+    }
+
+    /*
+    * Like or unlike an image
+    */
+    public function like()
+    {
+        echo "LIKE";
+        return 205;
     }
 }
 

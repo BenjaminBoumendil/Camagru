@@ -44,9 +44,14 @@
   </body>
 
   <script>
-    function refreshGallery() {
-      window.location.href = '/gallery';
-      window.location.reload();
+    function commentForm() {
+        document.getElementById("commentForm").submit();
+        window.location.reload();
+    }
+
+    function likeForm() {
+        document.getElementById("likeForm").submit();
+        window.location.reload();
     }
   </script>
 

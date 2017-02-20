@@ -21,10 +21,11 @@ class CommentController extends CommentEntity
     */
     public function getForm($imageID)
     {
-        return "<form onsubmit='refreshGallery();' id='commentForm' method='POST' action='/gallery/?comment-upload'>
+        return "<form id='commentForm' method='POST'>
                   <textarea name='comment' cols='80' rows='8'></textarea>
                   <input type='hidden' value=" . $imageID . " name='imageID' />
-                  <input type='submit' value='Submit comment' />
+                  <input type='hidden' value='comment' name='action' />
+                  <input onclick='commentForm();' type='button' value='Comment' />
                 </form>
                ";
     }

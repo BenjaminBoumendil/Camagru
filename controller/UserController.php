@@ -49,7 +49,7 @@ class UserController extends UserEntity
             if ($this->create($_POST["username"], $_POST["email"], $_POST["password"]))
             {
                 mail($_POST["email"], "Welcome",
-                    "You are now registred as " . $_POST['username'] .
+                    "You are now registered as " . $_POST['username'] .
                     "and your password is " . $_POST['password']
                     );
                 return 201;

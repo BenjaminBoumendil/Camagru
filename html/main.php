@@ -13,11 +13,12 @@
 
     <br />
 
-    <form method="POST" enctype="multipart/form-data" action="/?img-upload" id="imgForm" style="visibility: hidden;">
-      <input type="file" id="file_form" name="file" accept="image/*" /><br />
+    <form method="POST" enctype="multipart/form-data" id="imgForm" style="visibility: hidden;">
+      <input type="file" name="file" accept="image/*" /><br />
+      <input type="hidden" name='action' value="image">
+      <input onclick="imgForm()" type="button" value="Submit">
     </form>
 
-    <input onclick="imgForm()" type="submit" value="Submit">
 
     <video autoplay></video>
   </div>
@@ -25,7 +26,7 @@
   <script>
       function imgForm() {
         document.getElementById("imgForm").submit();
-        window.location.href = "/";
+        window.location.reload();
       }
   </script>
 
