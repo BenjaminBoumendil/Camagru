@@ -36,15 +36,15 @@
       var localMediaStream = null;
 
       function uploadFile() {
-        var file = document.getElementById("file_form").files[0];
-        xhttp = new XMLHttpRequest();
-        xhttp.open("POST", "/?img-upload", true);
-        xhttp.onload = function() {
-          if (xhttp.status === 202) {
-              console.log("FILE UPLOADED");
-          }
-        };
-        xhttp.send(file);
+        // var file = document.getElementById("file_form").files[0];
+        // xhttp = new XMLHttpRequest();
+        // xhttp.open("POST", "/?img-upload", true);
+        // xhttp.onload = function() {
+        //   if (xhttp.status === 202) {
+        //       console.log("FILE UPLOADED");
+        //   }
+        // };
+        // xhttp.send(file);
       }
 
       var errorCallback = function(e) {
@@ -61,13 +61,14 @@
           ctx.drawImage(video, 0, 0, 720, 720, 0, 0, 720, 720);
           // "image/webp" works in Chrome.
           // Other browsers will fall back to image/png.
-          document.querySelector('img').src = canvas.toDataURL('image/webp');
+          // document.querySelector('img').src = canvas.toDataURL('image/webp');
+          document.getElementById('imgMain').src = canvas.toDataURL('image/webp');
 
           // send Image to server
-          var file = document.getElementById('img-cam').src,
-          xhr = new XMLHttpRequest();
-          xhr.open('POST', '/?img-upload', true);
-          xhr.send(file);
+          // var file = document.getElementById('img-cam').src,
+          // xhr = new XMLHttpRequest();
+          // xhr.open('POST', '/?img-upload', true);
+          // xhr.send(file);
         }
       }
 

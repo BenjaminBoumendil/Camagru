@@ -37,6 +37,19 @@ class UserController extends UserEntity
     }
 
     /*
+    * return one user, author of $imageID
+    */
+    public function getImageAuthor($imageID)
+    {
+        $imageController = new ImageController();
+
+        $image = $imageController->getImageAuthor($imageID);
+        $user = $this->getOne($image['UserFK']);
+
+        return $user;
+    }
+
+    /*
     * Register a user and send a mail
     * return 201 in success or 400
     */

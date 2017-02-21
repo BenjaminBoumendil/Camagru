@@ -68,15 +68,36 @@ class ImageController extends ImageEntity
     public function uploadImage()
     {
         $fileName = uniqid('img_') . '.jpeg';
-        $target = $_SERVER["DOCUMENT_ROOT"] . "/img/" . $fileName;
-        $thumbDest = $_SERVER["DOCUMENT_ROOT"] . "/img/thumb_" . $fileName;
+        $target = "/img/" . $fileName;
+        $thumbDest = "/img/thumb_" . $fileName;
 
-        if (move_uploaded_file($_FILES["file"]["tmp_name"], $target)) {
-            $this->makeThumb($target, $thumbDest, 240, 240);
+        if (move_uploaded_file($_FILES["file"]["tmp_name"], $_SERVER["DOCUMENT_ROOT"] . $target)) {
+            $this->makeThumb($_SERVER["DOCUMENT_ROOT"] . $target,
+                             $_SERVER["DOCUMENT_ROOT"] . $thumbDest, 240, 240);
             $this->create($fileName, $target, $thumbDest);
             return 201;
         }
         return 400;
+    }
+
+    public function getImageAuthor($imageID)
+    {
+        return $this->getOne($imageID);
+    }
+
+    /*
+    * return html with thumb of last $count image uploaded by $userID
+    */
+    public function getLastThumb($userID, $count=5)
+    {
+        $images = $this->getAllByUser($userID);
+
+        for ($i = 0; $i < $count; $i++) {
+            if (isset($images[$i])) {
+                $html .= "<img src=" . $images[$i]['Thumb'] . " />";
+            }
+        }
+        return $html;
     }
 }
 

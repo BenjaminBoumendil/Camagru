@@ -31,12 +31,19 @@ class CommentController extends CommentEntity
     }
 
    /*
-    * Upload a comment
+    * Upload a comment and send a mail to image author
     * return 201 in success otherwise 400
     */
     public function uploadComment()
     {
+        $userController = new UserController();
+
         if ($this->create($_POST['comment'], $_POST['imageID'], $_SESSION['UserID'])) {
+            $imageAuthor = $userController->getImageAuthor($_POST['imageID']);
+            mail($imageAuthor["Email"], "Welcome",
+                 "User " . $_SESSION['Username'] .
+                 "posted a comment on your image."
+                );
             return 201;
         }
         return 400;

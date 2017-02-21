@@ -19,7 +19,8 @@
       <input onclick="imgForm()" type="button" value="Submit">
     </form>
 
-
+    <img id="imgMain" />
+    <canvas></canvas>
     <video autoplay></video>
   </div>
 

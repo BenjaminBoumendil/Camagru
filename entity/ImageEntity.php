@@ -50,11 +50,30 @@ class ImageEntity extends Entity
 
         try {
             $request = $this->dbInstance->prepare("SELECT * FROM Image
-                                                    WHERE UserFK = ?;");
+                                                    WHERE UserFK = ?
+                                                    ORDER BY uploadDate DESC;");
             $this->dbInstance->execute($request, array($userID));
             return $request->fetchAll();
         } catch (Exception $e) {
-            $_SESSION["DBError"] = "getAllImagesByUser Error: " . $e;
+            $_SESSION["DBError"] = "getAllByUser Error: " . $e;
+            return false;
+        }
+    }
+
+    /*
+    * return one image in success otherwise false
+    * Store error in SESSION["DBError"]
+    */
+    protected function getOne($imageID)
+    {
+        try {
+            $request = $this->dbInstance
+                            ->prepare("SELECT * FROM Image
+                                       WHERE ImageID = ?;");
+            $this->dbInstance->execute($request, array($imageID));
+            return $request->fetchAll();
+        } catch (Exception $e) {
+            $_SESSION["DBError"] = "getOne Error: " . $e;
             return false;
         }
     }

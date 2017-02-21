@@ -9,9 +9,11 @@
   </style>
 
   <div id="side">
-    Side
-    <img src="" id="img-cam">
-    <canvas style="display:none;" width="720" height="720"></canvas>
+    <?php
+      $imageController = new ImageController();
+
+      echo $imageController->getLastThumb($_SESSION['UserID']);
+    ?>
   </div>
 
 </html>

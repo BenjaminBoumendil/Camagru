@@ -33,6 +33,24 @@ class UserEntity extends Entity
     }
 
     /*
+    * return one user by his ID in success otherwise false
+    * Store error in SESSION["DBError"]
+    */
+    protected function getOneByID($userID)
+    {
+        try {
+            $request = $this->dbInstance
+                            ->prepare("SELECT UserID, Username, Email FROM User
+                                       WHERE UserID = ?");
+            $this->dbInstance->execute($request, array($userID));
+            return $request->fetchAll();
+        } catch (Exception $e) {
+            $_SESSION["DBError"] = "getOneByID Error: " . $e;
+            return false;
+        }
+    }
+
+    /*
     * return one user in format array(array()) or false
     * Store error in SESSION["DBError"]
     */
