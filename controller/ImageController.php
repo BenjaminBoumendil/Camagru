@@ -73,7 +73,7 @@ class ImageController extends ImageEntity
 
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $_SERVER["DOCUMENT_ROOT"] . $target)) {
             $this->makeThumb($_SERVER["DOCUMENT_ROOT"] . $target,
-                             $_SERVER["DOCUMENT_ROOT"] . $thumbDest, 240, 240);
+                             $_SERVER["DOCUMENT_ROOT"] . $thumbDest, 120, 120);
             $this->create($fileName, $target, $thumbDest);
             return 201;
         }
@@ -88,7 +88,7 @@ class ImageController extends ImageEntity
     /*
     * return html with thumb of last $count image uploaded by $userID
     */
-    public function getLastThumb($userID, $count=5)
+    public function getLastThumb($userID, $count=3)
     {
         $images = $this->getAllByUser($userID);
 
