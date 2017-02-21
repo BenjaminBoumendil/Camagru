@@ -3,7 +3,7 @@
   <style>
     header {
       width: 100%;
-      height: 50px;
+      height: 10%;
       background-color: black;
     }
     #white-text {

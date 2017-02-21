@@ -6,6 +6,12 @@
       display: flex;
       height: 100%;
     }
+    html {
+      height: 100%;
+    }
+    body {
+      height: 80%;
+    }
   </style>
 
   <head>
@@ -48,7 +54,6 @@
           ctx.drawImage(video, 0, 0, 720, 720, 0, 0, 720, 720);
           // "image/webp" works in Chrome.
           // Other browsers will fall back to image/png.
-          // document.querySelector('img').src = canvas.toDataURL('image/webp');
           document.getElementById('imgMain').src = canvas.toDataURL('image/webp');
         }
       }

@@ -3,6 +3,8 @@
   <style>
     footer {
         background-color: black;
+        width: 100%;
+        height: 10%;
     }
   </style>
 

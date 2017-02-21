@@ -2,7 +2,7 @@
 <html>
   <style>
     #main {
-        min-height: 500px;
+        /*min-height: 500px;*/
         float: left;
         width: 75%;
         border: 10px solid grey;
