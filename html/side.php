@@ -4,7 +4,7 @@
     #side {
         float: right;
         width: 25%;
-        border: 10px solid grey;
+        /*border: 10px solid grey;*/
     }
     #imageDiv {
         width: 50%;

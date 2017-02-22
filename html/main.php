@@ -2,7 +2,6 @@
 <html>
   <style>
     #main {
-        /*min-height: 500px;*/
         float: left;
         width: 75%;
         border: 10px solid grey;
@@ -11,28 +10,28 @@
         float: left;
         width: 49%;
         height: 99%;
-        border: 3px solid grey;
+        /*border: 3px solid grey;*/
     }
     #topRight {
         float: right;
         width: 49%;
         height: 99%;
-        border: 3px solid grey;
+        /*border: 3px solid grey;*/
     }
     #bottomLeft {
         float: left;
         width: 49%;
         height: 99%;
-        border: 3px solid grey;
+        /*border: 3px solid grey;*/
     }
     #bottomRight {
         float: right;
         width: 49%;
         height: 99%;
-        border: 3px solid grey;
+        /*border: 3px solid grey;*/
     }
     #top {
-        height: 50%;
+      height: 50%;
     }
     #bottom {
       height: 50%;
@@ -40,6 +39,11 @@
     #imgMain {
       width: 100%;
       height: 100%;
+    }
+    #imgForm {
+      position: relative;
+      top: 40%;
+      left: 40%;
     }
   </style>
 
