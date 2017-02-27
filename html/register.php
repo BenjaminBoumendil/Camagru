@@ -29,11 +29,11 @@
     </form>
   </div>
 
-<script>
+  <script>
     function loggingForm() {
         document.getElementById("registerForm").submit();
         window.location.reload();
     }
-</script>
+  </script>
 
 </html>
