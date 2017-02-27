@@ -28,7 +28,7 @@ class LikeController extends LikeEntity
                      <input type='hidden' name='action' value='like' />
                      <input onclick='likeForm();' type='button' value=" . $value . " />
                    </form>
-                 </div><br />";
+                 </div>";
 
         return $form;
     }

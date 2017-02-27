@@ -36,6 +36,11 @@
         document.getElementById("likeForm").submit();
         window.location.reload();
     }
+
+    function deleteImageForm() {
+        document.getElementById("deleteImageForm").submit();
+        window.location.reload();
+    }
   </script>
 
 </html>

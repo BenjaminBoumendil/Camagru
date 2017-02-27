@@ -16,9 +16,27 @@ class ImageEntity extends Entity
                                   uploadDate DATETIME   DEFAULT CURRENT_TIMESTAMP,
                                   UserFK int,
                                   PRIMARY KEY (ImageID),
-                                  FOREIGN KEY (UserFK) REFERENCES User(UserID)
+                                  FOREIGN KEY (UserFK) REFERENCES User(UserID) ON DELETE CASCADE
                                   )
                                   ");
+    }
+
+    /*
+    * delete an image with SQL param for SQL INJECTION
+    * return true in success otherwise false
+    * Store error in SESSION["DBError"]
+    */
+    protected function delete($userID, $imageID)
+    {
+        try {
+            $this->dbInstance->prepExec("DELETE FROM Image
+                                         WHERE ImageID = ? AND UserFK = ?;",
+                                         array($imageID, $userID));
+            return true;
+        } catch (Exception $e) {
+            $_SESSION["DBError"] = "createImage Error: " . $e;
+            return false;
+        }
     }
 
     /*

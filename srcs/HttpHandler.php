@@ -50,6 +50,8 @@ class HttpHandler
             http_response_code($this->commentController->uploadComment());
         } elseif ($_POST['action'] == "like") {
             http_response_code($this->likeController->like());
+        } elseif ($_POST['action'] == "deleteImage") {
+            http_response_code($this->imageController->deleteImage());
         } else {
             include("index.html");
         }

@@ -10,8 +10,8 @@ class LikeEntity extends Entity
                                   ImageFK int           NOT NULL,
                                   UserFK int            NOT NULL,
                                   PRIMARY KEY (LikeID),
-                                  FOREIGN KEY (ImageFK) REFERENCES Image(ImageID),
-                                  FOREIGN KEY (UserFK) REFERENCES User(UserID)
+                                  FOREIGN KEY (ImageFK) REFERENCES Image(ImageID) ON DELETE CASCADE,
+                                  FOREIGN KEY (UserFK) REFERENCES User(UserID) ON DELETE CASCADE
                                   )
                                  ;"
                                 );

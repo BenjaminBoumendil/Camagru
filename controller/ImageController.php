@@ -3,6 +3,35 @@
 class ImageController extends ImageEntity
 {
     /*
+    * Delete one image
+    * return 200 in success otherwise 400
+    */
+    public function deleteImage()
+    {
+        if ($this->delete($_SESSION['UserID'], $_POST['imageID'])) {
+            return 200;
+        } else {
+            return 400;
+        }
+    }
+
+    /*
+    * Get image deletion form for $imageID
+    * return html form
+    */
+    public function getDeleteForm($imageID)
+    {
+        $form = "<div>
+                   <form method='POST' id='deleteImageForm'>
+                     <input type='hidden' name='imageID' value=" . $imageID . " />
+                     <input type='hidden' name='action' value='deleteImage' />
+                     <input onclick='deleteImageForm();' type='button' value='Delete' />
+                   </form>
+                 </div>";
+        return $form;
+    }
+
+    /*
     * return html for pagination
     */
     public function getPagination($gallerySize)
@@ -34,6 +63,7 @@ class ImageController extends ImageEntity
             $imgComment = $commentController->getByImage($img['ImageID']);
             $commentForm = $commentController->getForm($img['ImageID']);
             $likeForm = $likeController->getForm($img['ImageID']);
+            $deleteForm = $this->getDeleteForm($img['ImageID']);
 
             if ($isList == true) {
                 array_push($gallery, "<a href='?" . ($index + 1) .
@@ -42,7 +72,7 @@ class ImageController extends ImageEntity
             } else {
                 array_push($gallery, "<div class='img-div' align='center'>" .
                                      $imgField . $imgComment . $commentForm .
-                                     $likeForm . "</div>");
+                                     $likeForm . $deleteForm . "</div>");
             }
         }
 
