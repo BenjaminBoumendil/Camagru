@@ -1,0 +1,33 @@
+html {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.center {
+  display: flex;
+  height: 100%;
+  flex: 1;
+}
+
+.gallery {
+  height: 100%;
+  flex: 1;
+}
+
+.pagination a {
+  color: black;
+  padding: 8px, 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+}

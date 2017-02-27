@@ -1,0 +1,49 @@
+input[type=button] {
+    width: 50%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=button]:hover {
+    background-color: #45a049;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.div-responsive {
+  float: left;
+  margin: 0.15%;
+  padding: 0.15%;
+  width: 49%;
+  height: 99%;
+  border: 1px solid grey;
+}
+
+#main {
+    float: left;
+    width: 75%;
+    /*border: 2px solid grey;*/
+}
+
+#top {
+  width: 99%;
+  height: 49%;
+}
+
+#bottom {
+  width: 99%;
+  height: 49%;
+}
+
+#imgMain {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+}

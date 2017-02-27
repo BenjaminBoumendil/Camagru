@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <title>Title</title>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <?php include($_SERVER["DOCUMENT_ROOT"] . "/html/header.php"); ?>
+
+    <div class="center">
+      <!-- Main -->
+      <?php include($_SERVER["DOCUMENT_ROOT"] . "/html/main.php"); ?>
+
+      <!-- Side -->
+      <?php include($_SERVER["DOCUMENT_ROOT"] . "/html/side.php"); ?>
+    </div>
+
+    <!-- Footer -->
+    <?php include($_SERVER["DOCUMENT_ROOT"] . "/html/footer.php"); ?>
+  </body>
+
+  <script>
+      var video = document.querySelector('video');
+      var canvas = document.querySelector('canvas');
+      var ctx = canvas.getContext('2d');
+      var localMediaStream = null;
+
+      var errorCallback = function(e) {
+        console.log('no webcam');
+      };
+
+      function fallback() {
+        console.log('getUserMedia missing');
+      }
+
+      function snapshot() {
+        if (localMediaStream) {
+          ctx.drawImage(video, 0, 0, 720, 720, 0, 0, 720, 720);
+          // "image/webp" works in Chrome.
+          // Other browsers will fall back to image/png.
+          document.getElementById('imgMain').src = canvas.toDataURL('image/webp');
+        }
+      }
+
+      navigator.getUserMedia  = navigator.getUserMedia ||
+                                navigator.webkitGetUserMedia ||
+                                navigator.mozGetUserMedia ||
+                                navigator.msGetUserMedia;
+
+      if (!navigator.getUserMedia) {
+        fallback();
+      } else {
+        var sizeConstraints = {
+          video: {
+            mandatory: {
+              maxWidth: 720,
+              maxHeight: 720
+            }
+          }
+        };
+
+        video.addEventListener('click', snapshot, false);
+
+        navigator.getUserMedia(sizeConstraints, function(stream) {
+            video.src = window.URL.createObjectURL(stream);
+            localMediaStream = stream;
+
+            video.onloadedmetadata = function(e) {
+              // Ready to go. Do some stuff.
+            };
+        }, errorCallback);
+      }
+  </script>
+
+</html>
