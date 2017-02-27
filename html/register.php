@@ -24,13 +24,24 @@
       <p>Password</p>
       <input type="password" name="password" /><br /><br />
 
-      <input onclick="loggingForm();" type="button" value="Register" />
-      <input onclick="loggingForm();" type="button" value="Login" />
+      <input type="hidden" id="registerHidden" name='action' value="" />
+      <input onclick="register();" type="button" name='action' value="Register" />
+      <input onclick="login();" type="button" name='action' value="Login" />
     </form>
   </div>
 
   <script>
-    function loggingForm() {
+    function register() {
+        document.getElementById('registerHidden').value = "register";
+        sendForm();
+    }
+
+    function login() {
+        document.getElementById('registerHidden').value = "login";
+        sendForm();
+    }
+
+    function sendForm() {
         document.getElementById("registerForm").submit();
         window.location.reload();
     }

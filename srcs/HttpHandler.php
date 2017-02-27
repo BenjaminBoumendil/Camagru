@@ -6,6 +6,7 @@ class HttpHandler
     private $imageController;
     private $commentController;
     private $likeController;
+    private $passwordController;
 
     public function __construct()
     {
@@ -13,32 +14,13 @@ class HttpHandler
         $this->imageController = new ImageController();
         $this->commentController = new CommentController();
         $this->likeController = new LikeController();
-    }
-
-    /*
-    * Handle register and logging
-    */
-    private function registerAndLog()
-    {
-        if (!isset($_POST['username']) && !isset($_POST['password'])) {
-            include($_SERVER["DOCUMENT_ROOT"] . "/html/register.php");
-        }
-        else
-        {
-            if (isset($_POST['email'])) {
-                http_response_code($this->userController->register());
-            }
-            else {
-                http_response_code(202);
-            }
-            $this->userController->login();
-        }
+        $this->passwordController = new PasswordController();
     }
 
     /*
     * Handle site functionality for register user
     */
-    private function site()
+    private function siteAsLogged()
     {
         $qs = parse_url($_SERVER['QUERY_STRING']);
 
@@ -58,15 +40,34 @@ class HttpHandler
     }
 
     /*
+    * Handle site functionality for anonymous user
+    */
+    private function siteAsAnonymous()
+    {
+        $qs = parse_url($_SERVER['QUERY_STRING']);
+
+        if ($_POST['action'] == "register") {
+            http_response_code($this->userController->register());
+            $this->userController->login();
+        } elseif ($_POST['action'] == "login") {
+            $this->userController->login();
+        } elseif ($this->passwordController->isPasswordResetUrl($qs['path'])) {
+            $this->passwordController->getResetForm();
+        } else {
+            include($_SERVER["DOCUMENT_ROOT"] . "/html/register.php");
+        }
+    }
+
+    /*
     * Check if User is logged or not
     */
     public function handle()
     {
         if ($this->userController->isLogged() == false) {
-            $this->registerAndLog();
+            $this->siteAsAnonymous();
         }
         else {
-            $this->site();
+            $this->siteAsLogged();
         }
     }
 }
